@@ -12,10 +12,14 @@ public class RTSController : MonoBehaviour
     private Vector2 startPos;
     private bool isDragging = false;
 
+    private void Start()
+    {
+        selectionBox.gameObject.SetActive(false);
+    }
     void Update()
     {
         MouseInput();
-        ShiftInput();
+        ShiftAndCtrlInput();
         ControlGroupsInput();
     }
     void MouseInput()
@@ -46,6 +50,7 @@ public class RTSController : MonoBehaviour
                 // Finish drag selection
                 selectionBox.gameObject.SetActive(false);
                 SelectUnitsWithinBox();
+                isDragging = false;
             }
             else
             {
@@ -65,25 +70,20 @@ public class RTSController : MonoBehaviour
 
     void SelectUnitsWithinBox()
     {
-        Vector2 min = selectionBox.anchoredPosition - (selectionBox.sizeDelta / 2);
-        Vector2 max = selectionBox.anchoredPosition + (selectionBox.sizeDelta / 2);
-
-        var unitsBoxed = Physics2D.OverlapAreaAll(min, max);
-        var unitsObject = new GameObject[unitsBoxed.Length];
-        for (int i = 0; i <= unitsBoxed.Length; i++)
-        {
-            unitsObject[i] = unitsBoxed[i].gameObject;
-        }
-        UnitController.instance.DragSelect(unitsObject);
+        var start = Camera.main.ScreenToWorldPoint(startPos);
+        var end = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        var unitsBoxed = Physics2D.OverlapAreaAll(start, end);
+        UnitController.instance.DragSelect(unitsBoxed);
     }
 
     void SelectSingleUnit()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity, unitLayerMask);
+        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, unitLayerMask);
 
         if (hit.collider != null)
         {
+            Debug.Log("hit");
             GameObject clickedUnit = hit.collider.gameObject;
             UnitController.instance.DeSelectAll();
             UnitController.instance.Select(clickedUnit);
@@ -96,7 +96,7 @@ public class RTSController : MonoBehaviour
         }
     }
 
-    void ShiftInput()
+    void ShiftAndCtrlInput()
     {
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -106,28 +106,42 @@ public class RTSController : MonoBehaviour
         {
             UnitController.instance._shiftPressed = false;
         }
+
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            UnitController.instance._holdingCtrl = true;
+        }
+        else
+        {
+            UnitController.instance._holdingCtrl = false;
+        }
     }
 
     void ControlGroupsInput()
     {
         if (Input.GetKey(KeyCode.LeftControl))
         {
-            for (int i = 0; i <= 9; i++)
-            {
-                if (Input.GetKeyDown(KeyCode.Alpha0 + i))
-                {
-                    UnitController.instance.AssignControlGroups(i);
-                }
-            }
+            if (Input.GetKeyDown(KeyCode.Alpha0)) { UnitController.instance.AssignControlGroups(0); }
+            else if (Input.GetKeyDown(KeyCode.Alpha1)) { UnitController.instance.AssignControlGroups(1); }
+            else if (Input.GetKeyDown(KeyCode.Alpha2)) { UnitController.instance.AssignControlGroups(2); }
+            else if (Input.GetKeyDown(KeyCode.Alpha3)) { UnitController.instance.AssignControlGroups(3); }
+            else if (Input.GetKeyDown(KeyCode.Alpha4)) { UnitController.instance.AssignControlGroups(4); }
+            else if (Input.GetKeyDown(KeyCode.Alpha5)) { UnitController.instance.AssignControlGroups(5); }
+            else if (Input.GetKeyDown(KeyCode.Alpha6)) { UnitController.instance.AssignControlGroups(6); }
+            else if (Input.GetKeyDown(KeyCode.Alpha7)) { UnitController.instance.AssignControlGroups(7); }
+            else if (Input.GetKeyDown(KeyCode.Alpha8)) { UnitController.instance.AssignControlGroups(8); }
+            else if (Input.GetKeyDown(KeyCode.Alpha9)) { UnitController.instance.AssignControlGroups(9); }
         }
 
-        for (int i = 0; i <= 9; i++)
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha0 + i))
-            {
-                UnitController.instance.CallControlGroups(i);
-            }
-        }
+        if (Input.GetKeyDown(KeyCode.Alpha0)) { UnitController.instance.CallControlGroups(0); }
+        else if (Input.GetKeyDown(KeyCode.Alpha1)) { UnitController.instance.CallControlGroups(1); }
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) { UnitController.instance.CallControlGroups(2); }
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) { UnitController.instance.CallControlGroups(3); }
+        else if (Input.GetKeyDown(KeyCode.Alpha4)) { UnitController.instance.CallControlGroups(4); }
+        else if (Input.GetKeyDown(KeyCode.Alpha5)) { UnitController.instance.CallControlGroups(5); }
+        else if (Input.GetKeyDown(KeyCode.Alpha6)) { UnitController.instance.CallControlGroups(6); }
+        else if (Input.GetKeyDown(KeyCode.Alpha7)) { UnitController.instance.CallControlGroups(7); }
+        else if (Input.GetKeyDown(KeyCode.Alpha8)) { UnitController.instance.CallControlGroups(8); }
+        else if (Input.GetKeyDown(KeyCode.Alpha9)) { UnitController.instance.CallControlGroups(9); }
     }
-    
 }

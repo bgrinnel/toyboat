@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class UnitController : MonoBehaviour
 {
+    [SerializeField]
     private List<GameObject> _selectedUnits = new List<GameObject>();
     private static UnitController _instance;
     public static UnitController instance { get { return _instance; } }
     public bool _shiftPressed;
+    public bool _holdingCtrl;
     public List<GameObject>[] unitGroups = new List<GameObject>[10];
 
     private void Awake()
@@ -50,25 +52,34 @@ public class UnitController : MonoBehaviour
         _selectedUnits.Clear();
     }
 
-    public void DragSelect(GameObject[] units)
+    public void DragSelect(Collider2D[] units)
     {
         if (!_shiftPressed) { _selectedUnits.Clear(); }
         foreach (var unit in units)
         {
-            if (!_selectedUnits.Contains(unit))
+            if (!_selectedUnits.Contains(unit.gameObject))
             {
-                _selectedUnits.Add(unit);
+                _selectedUnits.Add(unit.gameObject);
             }
         }
     }
 
-    public void AssignControlGroups (int groupnumber)
+    public void AssignControlGroups(int groupnumber)
     {
-        unitGroups[groupnumber] = _selectedUnits;
+        foreach (var unit in _selectedUnits)
+        {
+            unitGroups[groupnumber].Add(unit);
+        }
+        Debug.Log("unit assigned to group " + groupnumber);
     }
 
-    public void CallControlGroups (int grounpnumber)
+    public void CallControlGroups(int grounpnumber)
     {
-        _selectedUnits = unitGroups[grounpnumber];
+        _selectedUnits.Clear();
+
+        foreach (var unit in unitGroups[grounpnumber])
+        {
+            _selectedUnits.Add(unit);
+        }
     }
 }
