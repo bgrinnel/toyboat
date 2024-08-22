@@ -79,7 +79,10 @@ public class UnitController : MonoBehaviour
 
         foreach (var unit in unitGroups[grounpnumber])
         {
-            _selectedUnits.Add(unit);
+            if (unit != null && !_selectedUnits.Contains(unit))
+            {
+                _selectedUnits.Add(unit);
+            }
         }
     }
 }

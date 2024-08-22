@@ -132,16 +132,18 @@ public class RTSController : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.Alpha8)) { UnitController.instance.AssignControlGroups(8); }
             else if (Input.GetKeyDown(KeyCode.Alpha9)) { UnitController.instance.AssignControlGroups(9); }
         }
-
-        if (Input.GetKeyDown(KeyCode.Alpha0)) { UnitController.instance.CallControlGroups(0); }
-        else if (Input.GetKeyDown(KeyCode.Alpha1)) { UnitController.instance.CallControlGroups(1); }
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) { UnitController.instance.CallControlGroups(2); }
-        else if (Input.GetKeyDown(KeyCode.Alpha3)) { UnitController.instance.CallControlGroups(3); }
-        else if (Input.GetKeyDown(KeyCode.Alpha4)) { UnitController.instance.CallControlGroups(4); }
-        else if (Input.GetKeyDown(KeyCode.Alpha5)) { UnitController.instance.CallControlGroups(5); }
-        else if (Input.GetKeyDown(KeyCode.Alpha6)) { UnitController.instance.CallControlGroups(6); }
-        else if (Input.GetKeyDown(KeyCode.Alpha7)) { UnitController.instance.CallControlGroups(7); }
-        else if (Input.GetKeyDown(KeyCode.Alpha8)) { UnitController.instance.CallControlGroups(8); }
-        else if (Input.GetKeyDown(KeyCode.Alpha9)) { UnitController.instance.CallControlGroups(9); }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha0)) { UnitController.instance.CallControlGroups(0); }
+            else if (Input.GetKeyDown(KeyCode.Alpha1)) { UnitController.instance.CallControlGroups(1); }
+            else if (Input.GetKeyDown(KeyCode.Alpha2)) { UnitController.instance.CallControlGroups(2); }
+            else if (Input.GetKeyDown(KeyCode.Alpha3)) { UnitController.instance.CallControlGroups(3); }
+            else if (Input.GetKeyDown(KeyCode.Alpha4)) { UnitController.instance.CallControlGroups(4); }
+            else if (Input.GetKeyDown(KeyCode.Alpha5)) { UnitController.instance.CallControlGroups(5); }
+            else if (Input.GetKeyDown(KeyCode.Alpha6)) { UnitController.instance.CallControlGroups(6); }
+            else if (Input.GetKeyDown(KeyCode.Alpha7)) { UnitController.instance.CallControlGroups(7); }
+            else if (Input.GetKeyDown(KeyCode.Alpha8)) { UnitController.instance.CallControlGroups(8); }
+            else if (Input.GetKeyDown(KeyCode.Alpha9)) { UnitController.instance.CallControlGroups(9); }
+        }
     }
 }
