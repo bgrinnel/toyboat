@@ -38,6 +38,10 @@ public class UnitController : MonoBehaviour
         if (!_shiftPressed) { _selectedUnits.Clear(); }
         _selectedUnits.Add(unit);
     }
+    public List<GameObject> Selected()
+    {
+        return(_selectedUnits);
+    }
 
     public void DeSelect(GameObject unit)
     {

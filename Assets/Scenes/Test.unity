@@ -657,7 +657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d449d8eb5ab56ec42b7c67107740d9fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 1874285242}
+  scrollZoomSpeed: 0.3
   cameraSpeed: 5
 --- !u!1 &1974333280
 GameObject:
