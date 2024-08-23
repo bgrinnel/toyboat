@@ -78,9 +78,19 @@ public class RTSController : MonoBehaviour
 
     void SelectUnitsWithinBox()
     {
-        var start = Camera.main.ScreenToWorldPoint(startPos);
-        var end = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        var unitsBoxed = Physics2D.OverlapAreaAll(start, end);
+        Debug.Log("startpos " + startPos);
+        Vector3 start = Camera.main.ScreenToWorldPoint(new Vector3(startPos.x, startPos.y, Camera.main.transform.position.z)) * -1;
+        Vector3 end = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.z)) * -1;
+       
+       
+
+        Vector3 center = end -start;
+
+
+        Vector3 size = new Vector3(end.x - start.x, end.y - start.y,  Camera.main.nearClipPlane + 1);
+       //Debug.Log("size " + size);
+        var unitsBoxed = Physics.OverlapBox(center,size , Quaternion.identity, unitLayerMask);
+        //var unitsBoxed = Physics2D.OverlapAreaAll(start, end);
         UnitController.instance.DragSelect(unitsBoxed);
     }
 

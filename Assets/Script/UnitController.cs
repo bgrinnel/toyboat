@@ -56,7 +56,7 @@ public class UnitController : MonoBehaviour
         _selectedUnits.Clear();
     }
 
-    public void DragSelect(Collider2D[] units)
+    public void DragSelect(Collider[] units)
     {
         if (!_shiftPressed) { _selectedUnits.Clear(); }
         foreach (var unit in units)

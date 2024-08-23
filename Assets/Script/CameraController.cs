@@ -27,7 +27,8 @@ public class CameraController : MonoBehaviour
             transform.position += Vector3.right * Time.deltaTime * cameraSpeed;
         }
         Vector3 pos = transform.position;
-        pos.z += Input.mouseScrollDelta.y * scrollZoomSpeed;
+        if((pos.z + (Input.mouseScrollDelta.y * scrollZoomSpeed)) > -20 && (pos.z + (Input.mouseScrollDelta.y * scrollZoomSpeed)) < -1)
+            pos.z += Input.mouseScrollDelta.y * scrollZoomSpeed;
         transform.position = pos;
 
     }
