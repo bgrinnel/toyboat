@@ -38,6 +38,10 @@ public class UnitController : MonoBehaviour
         if (!_shiftPressed) { _selectedUnits.Clear(); }
         _selectedUnits.Add(unit);
     }
+    public List<GameObject> Selected()
+    {
+        return(_selectedUnits);
+    }
 
     public void DeSelect(GameObject unit)
     {
@@ -52,7 +56,7 @@ public class UnitController : MonoBehaviour
         _selectedUnits.Clear();
     }
 
-    public void DragSelect(Collider2D[] units)
+    public void DragSelect(Collider[] units)
     {
         if (!_shiftPressed) { _selectedUnits.Clear(); }
         foreach (var unit in units)

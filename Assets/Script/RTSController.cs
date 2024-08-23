@@ -6,7 +6,10 @@ using Unity.VisualScripting;
 public class RTSController : MonoBehaviour
 {
     public RectTransform selectionBox;
+    public Vector3 screenPos;
+    public Vector3 worldPos;
     public LayerMask unitLayerMask;
+    public LayerMask background;
     public float clickThreshold = 0.5f; // To distinguish between click and drag
 
     private Vector2 startPos;
@@ -42,7 +45,7 @@ public class RTSController : MonoBehaviour
                 UpdateSelectionBox(startPos, Input.mousePosition);
             }
         }
-
+        //left mouse click
         if (Input.GetMouseButtonUp(0))
         {
             if (isDragging)
@@ -58,6 +61,11 @@ public class RTSController : MonoBehaviour
                 SelectSingleUnit();
             }
         }
+        //right mouse click
+        if (Input.GetMouseButtonUp(1))
+        {
+            RightMouseClick();
+        }
     }
     void UpdateSelectionBox(Vector2 start, Vector2 end)
     {
@@ -70,29 +78,62 @@ public class RTSController : MonoBehaviour
 
     void SelectUnitsWithinBox()
     {
-        var start = Camera.main.ScreenToWorldPoint(startPos);
-        var end = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        var unitsBoxed = Physics2D.OverlapAreaAll(start, end);
+        Debug.Log("startpos " + startPos);
+        Vector3 start = Camera.main.ScreenToWorldPoint(new Vector3(startPos.x, startPos.y, Camera.main.transform.position.z)) * -1;
+        Vector3 end = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.z)) * -1;
+       
+       
+
+        Vector3 center = end -start;
+
+
+        Vector3 size = new Vector3(end.x - start.x, end.y - start.y,  Camera.main.nearClipPlane + 1);
+       //Debug.Log("size " + size);
+        var unitsBoxed = Physics.OverlapBox(center,size , Quaternion.identity, unitLayerMask);
+        //var unitsBoxed = Physics2D.OverlapAreaAll(start, end);
         UnitController.instance.DragSelect(unitsBoxed);
     }
 
     void SelectSingleUnit()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, Mathf.Infinity, unitLayerMask);
 
-        if (hit.collider != null)
-        {
+
+        screenPos = Input.mousePosition;
+        Ray ray = Camera.main.ScreenPointToRay(screenPos);
+        if(Physics.Raycast(ray,  out RaycastHit hitData, 100, unitLayerMask)){
             Debug.Log("hit");
-            GameObject clickedUnit = hit.collider.gameObject;
+            GameObject clickedUnit = hitData.collider.gameObject;
             UnitController.instance.DeSelectAll();
             UnitController.instance.Select(clickedUnit);
             // Add visual feedback or other logic for selection
         }
         else
-        {
+        {   
+            Debug.Log("deselect");
             UnitController.instance.DeSelectAll();
             // Handle deselection if needed
+        }
+        transform.position = worldPos;
+    
+        /*
+        Vector3 screenPosition = Input.mousePosition;
+        screenPosition.z = Camera.main.nearClipPlane + 1;
+        //Ray ray = Camera.main.ScreenPointToRay(screenPosition);
+        Debug.Log(screenPosition);
+        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(screenPosition), Vector3.forward, Mathf.Infinity, unitLayerMask);
+        transform.position = hit.point;
+        */
+    }
+    void RightMouseClick()
+    {
+        screenPos = Input.mousePosition;
+        Ray ray = Camera.main.ScreenPointToRay(screenPos);
+        if(Physics.Raycast(ray,  out RaycastHit hitData, 100, background)){
+            worldPos = hitData.point;
+        }
+        //GameObject[] selectedUnits = UnitController.instance.Selected();
+        foreach (var unit in UnitController.instance.Selected()){
+            unit.transform.position = worldPos;
         }
     }
 
