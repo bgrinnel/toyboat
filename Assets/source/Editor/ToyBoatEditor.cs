@@ -27,7 +27,7 @@ public class ToyBoatEditor : Editor
             string path = AssetDatabase.GUIDToAssetPath(guid);
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
 
-            if (prefab != null && prefab.GetComponent<TurretComponent>() != null && prefab.name != toy_boat.TurretBasePrefab.name)
+            if (prefab != null && prefab.GetComponent<TurretComponent>() != null && prefab.name != ToyBoat.TurretBasePrefab.name)
             {
                 TurretVariants.Add(prefab);
                 Debug.Log($"Turret Variant: \"{prefab.name}\"");
@@ -99,7 +99,7 @@ public class ToyBoatEditor : Editor
 
         var new_slot = new TurretSlot(new Vector2(), 0);
         Editor_ModifyTurretSlots(1);
-        GameObject empty_turret = Instantiate(toy_boat.EmptyTurretPrefab, toy_boat.TurretChildenRoot);
+        GameObject empty_turret = Instantiate(ToyBoat.EmptyTurretPrefab, toy_boat.TurretChildenRoot);
         
         new_slot.Turret = empty_turret.GetComponent<TurretComponent>();
         toy_boat.TurretSlots[toy_boat.TurretSlots.Length-1] = new_slot;
@@ -185,8 +185,8 @@ public class ToyBoatEditor : Editor
 
             if (prefab_name == "ToyBoatPrefabBase")
             {
-                EditorGUILayout.ObjectField("Turret Base Prefab", toy_boat.TurretBasePrefab, typeof(GameObject), false);
-                EditorGUILayout.ObjectField("Empty Turret Prefab", toy_boat.EmptyTurretPrefab, typeof(GameObject), false); 
+                EditorGUILayout.ObjectField("Turret Base Prefab", ToyBoat.TurretBasePrefab, typeof(GameObject), false);
+                EditorGUILayout.ObjectField("Empty Turret Prefab", ToyBoat.EmptyTurretPrefab, typeof(GameObject), false); 
                 EditorGUILayout.ObjectField("Turret Children Root", toy_boat.TurretChildenRoot, typeof(GameObject), true);
             }
             else

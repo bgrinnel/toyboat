@@ -5,10 +5,10 @@ public class ToyBoat : MonoBehaviour
 {
     
     [SerializeField]
-    public GameObject TurretBasePrefab;
+    public static GameObject TurretBasePrefab;
     
     [SerializeField]
-    public GameObject EmptyTurretPrefab;
+    public static GameObject EmptyTurretPrefab;
     
     [SerializeField]
     public Transform TurretChildenRoot;
