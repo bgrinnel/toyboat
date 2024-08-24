@@ -9,6 +9,7 @@ public class TurretSystem : MonoBehaviour
     public Transform ship; //the ship;'s transform, not the hull
     public float rotationSpeed = 5f; // Rotation speed
     public float maxRotationAngle = 130f; // Max rotation angle from the initial forward direction
+    public List<Gun> turretGuns = new List<Gun>();
 
     [Range (0, 180)]
     private float currentAngle = 0f;
@@ -16,33 +17,42 @@ public class TurretSystem : MonoBehaviour
 
     void Start()
     {
-        startAngle = transform.localEulerAngles.z;
-        currentAngle = transform.localEulerAngles.z;
+        startAngle = transform.localEulerAngles.z; //set initial turret angle
+        currentAngle = transform.localEulerAngles.z; //set curret turret angle
     }
 
     // Update is called once per frame
     void Update()
     {
-        TurretRotation(Aiming().x, Aiming().y);
+        TurretRotation(Aiming(target.position));
     }
-    Vector2 Aiming()
+
+    Vector3 calculateTargetLeadPosition(Transform target, float shellSpeed)
     {
-        Vector3 direction = target.position - transform.position;
-        float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        var targetlastposition = target.position;
+        Vector3 targetVelocity = (target.position - targetlastposition) / Time.deltaTime;
+
+        var targetDistance = Vector3.Distance(transform.position, target.position);
+        var balisticTime = targetDistance/shellSpeed;
+
+        var targetLeadPosition = target.position + targetVelocity * balisticTime;
+        return targetLeadPosition;
+    }
+
+    float Aiming(Vector3 targetPosition)
+    {
+        Vector3 direction = targetPosition - transform.position; 
+        float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; 
         targetAngle -= ship.eulerAngles.z;
         float targetLocalAngle = Mathf.DeltaAngle(startAngle, targetAngle);
-        Debug.Log("Target Local Angles:" + targetLocalAngle);
-        return new Vector2 (targetLocalAngle, targetAngle);
+        return targetLocalAngle;
     }
-    void TurretRotation(float targetLocalAngle, float targetAngle)
+    void TurretRotation(float targetLocalAngle)
     {
         var turretMax = maxRotationAngle + startAngle;
-        Debug.Log("TurretMax: " + turretMax);
         var turretMin = -maxRotationAngle + startAngle;
-        Debug.Log("TurretMin: " + turretMin);
         float netAngles = transform.localEulerAngles.z - startAngle;
         float angleDifference = Mathf.DeltaAngle(netAngles, targetLocalAngle);
-        Debug.Log("angle Difference: " + angleDifference);
         if (Mathf.Abs(targetLocalAngle) > maxRotationAngle)
         {
             Debug.Log("Status 1");
@@ -57,26 +67,11 @@ public class TurretSystem : MonoBehaviour
             }
             currentAngle = Mathf.Clamp(currentAngle, turretMin, turretMax);
         }
-        /*else
-        {
-            Debug.Log("Status 2");
-            float rotationStep = rotationSpeed * Time.deltaTime;
-            if (angleDifference != 0)
-            {
-                if (angleDifference > 0)
-                {
-                    currentAngle -= rotationStep;
-                }
-                else
-                {
-                    currentAngle += rotationStep;
-                }
-            }
-        }*/
+
         else
         {
             float rotationStep = Mathf.Sign(angleDifference) * rotationSpeed * Time.deltaTime;
-            Debug.Log("Status 3");
+            Debug.Log("Sign Value: " + Mathf.Sign(angleDifference));
             currentAngle = Mathf.Clamp(currentAngle + rotationStep, turretMin, turretMax);
         }
         transform.localRotation = Quaternion.Euler(0, 0, currentAngle);
