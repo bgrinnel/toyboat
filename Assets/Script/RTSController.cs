@@ -133,7 +133,8 @@ public class RTSController : MonoBehaviour
         }
         //GameObject[] selectedUnits = UnitController.instance.Selected();
         foreach (var unit in UnitController.instance.Selected()){
-            unit.transform.position = worldPos;
+            UnityEngine.AI.NavMeshAgent agent = unit.GetComponent<UnityEngine.AI.NavMeshAgent>();
+            agent.destination = worldPos;
         }
     }
 
