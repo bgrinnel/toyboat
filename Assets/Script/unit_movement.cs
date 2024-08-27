@@ -5,26 +5,32 @@ using UnityEngine.AI;
 
 public class unit_movement : MonoBehaviour
 {
-    Vector3 screenPos;
-    [SerializeField] NavMeshAgent agent;
-    public LayerMask background;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
+    List<Vector3> destinationList = new List<Vector3>();
+    [SerializeField] NavMeshAgent agent;
+    [SerializeField] private LayerMask background;
+    
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonUp(1))
-        {
-        
-            screenPos = Input.mousePosition;
-            Ray ray = Camera.main.ScreenPointToRay(screenPos);
-            if(Physics.Raycast(ray,  out RaycastHit hitData, 100, background)){
-                agent.destination = hitData.point;
-            }
+        if (agent.remainingDistance < agent.stoppingDistance && destinationList.Count >0){
+            updatePath();
         }
+    }
+    public void updateDestinationList(Vector3 destPoint, bool shiftPressed){
+        if(shiftPressed){
+            destinationList.Add(destPoint);
+        }
+        else{
+            destinationList.Clear();
+            destinationList.Add(destPoint);
+            updatePath();
+        }
+    }
+    public void updatePath(){
+
+        agent.destination = destinationList[0];
+        destinationList.RemoveAt(0);
+        
     }
 }
