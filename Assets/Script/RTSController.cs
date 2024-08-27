@@ -126,13 +126,13 @@ public class RTSController : MonoBehaviour
     {
         screenPos = Input.mousePosition;
         Ray ray = Camera.main.ScreenPointToRay(screenPos);
-        if(Physics.Raycast(ray,  out RaycastHit hitData, 100, background)){
+        if(Physics.Raycast(ray,  out RaycastHit hitData, 1000, background)){
             worldPos = hitData.point;
         }
         //GameObject[] selectedUnits = UnitController.instance.Selected();
         foreach (var unit in UnitController.instance.Selected()){
-            unit_movement move_Script = unit.GetComponent<unit_movement>();
-            move_Script.updateDestinationList(worldPos,UnitController.instance._shiftPressed);
+            Ship_Follow_Script pass_Script = unit.GetComponent<Ship_Follow_Script>();
+            pass_Script.PassDestination(worldPos,UnitController.instance._shiftPressed);
         }
     }
 
