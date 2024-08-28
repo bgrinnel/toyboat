@@ -184,8 +184,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -1372625422
   m_Radius: 0.5
-  m_Speed: 4
-  m_Acceleration: 2
+  m_Speed: 20
+  m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 90
   m_StoppingDistance: 0.6
@@ -224,7 +224,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 176067404}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -702,9 +702,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b269c1a51fbffc547b9d4496e1a0c1a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 10
+  rotSpeed: 30
   target: {fileID: 176067404}
   move_Script: {fileID: 176067406}
+  targetPos: {x: 0, y: 0, z: 0}
   rotationSpeed: 1
+  agent: {fileID: 176067407}
 --- !u!1 &771890102
 GameObject:
   m_ObjectHideFlags: 0
