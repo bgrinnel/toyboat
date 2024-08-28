@@ -10,6 +10,7 @@ public class Ship_Follow_Script : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float rotSpeed;
     [SerializeField] private GameObject target;
+    List<Vector3> destinationList = new List<Vector3>();
     [SerializeField] private unit_movement move_Script;
     [SerializeField] private Vector3 targetPos;
     [SerializeField] private float rotationSpeed;
@@ -19,13 +20,11 @@ public class Ship_Follow_Script : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        
-        /*
-        if (!agent.isStopped){
-            transform.position += Vector3.forward* Time.deltaTime;
+        if(targetPos == Vector3.zero && destinationList.Count !=0){
+            targetPos = destinationList[0];
+            destinationList.RemoveAt(0);
         }
-        */
+        
         float speedTick = Time.deltaTime * speed;
         Vector3 targetDir = targetPos - transform.position;
 
@@ -38,14 +37,24 @@ public class Ship_Follow_Script : MonoBehaviour
         else if(targetPos != Vector3.zero){
             transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speedTick); 
         }
+        float dist = Vector3.Distance(targetPos, transform.position);
+        if (dist < 2f){
+            targetPos = Vector3.zero;
+        }
         
         
     }
     public void PassDestination(Vector3 destPoint, bool shiftPressed){
-       // move_Script.updateDestinationList(destPoint, shiftPressed);
-       targetPos = destPoint;
+       if(shiftPressed){
+            destinationList.Add(destPoint);
+        }
+        else{
+            destinationList.Clear();
+            targetPos = destPoint;
+        }
     }
     /*
+    //stack overflow code
     public void mathNav(){
         angleToP = initial_direction - 90
         P.x = Origin.x + r * cos(angleToP)
@@ -82,35 +91,7 @@ public class Ship_Follow_Script : MonoBehaviour
         else
             distance = distance - LineSegment[i].length
     }
-    public void moveDestination(Vector3 destPoint,){
-        turnAngSpeed = 0.4 //direction changing speed
-        ForwordSpeed = 40 // full forward speed
-        turnForwordSpeed = ForwordSpeed *0.6 // forward speed while turning
-        function ent:update(dt)
-            dir = getVec2(self.tx-self.x,self.ty-self.y) // ship --> target direction (vec2)
-            dir = dir.normalize(dir) //normalized                               
-            a= dir:angle() - self.forward:angle() //angle between target direction e current forward ship vector
-            if (a<0) then
-                a=a+math.pi *2 // some workaround to have all positive values
-            end
-            
-            if a > 0.05 then // if angle difference 
-                if a < math.pi then
-                    //turn right
-                    self.forward = vec2.rotate(self.forward,getVec2(0,0),turnAngSpeed * dt)
-                else
-                    //turn left
-                    self.forward = vec2.rotate(self.forward,getVec2(0,0),-turnAngSpeed * dt)
-                end             
-                //apply turnForwordSpeed
-                self.x = self.x+ self.forward.x * turnForwordSpeed * dt
-                self.y = self.y+ self.forward.y * turnForwordSpeed * dt
-            else 
-                //applly ForwordSpeed
-                self.x = self.x+ self.forward.x * ForwordSpeed * dt
-                self.y = self.y+ self.forward.y * ForwordSpeed * dt
-            end
-end
-    }
     */
+    
+
 }
