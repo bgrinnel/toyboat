@@ -45,6 +45,7 @@ public class Ship_Follow_Script : MonoBehaviour
         
     }
     public void PassDestination(Vector3 destPoint, bool shiftPressed){
+        destPoint = new Vector3(destPoint.x,10,destPoint.z);
        if(shiftPressed){
             destinationList.Add(destPoint);
         }
