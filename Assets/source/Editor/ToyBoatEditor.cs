@@ -14,25 +14,45 @@ public class ToyBoatEditor : Editor
     
     private List<GameObject> TurretVariants = new List<GameObject>();
 
+    private string BoatPrefabBaseName = "ToyBoatPrefabBase";
+
     void OnEnable() 
     {
         ToyBoat toy_boat = target as ToyBoat;
-        // Find all prefabs that are derived from the base prefab
-        string[] guids = AssetDatabase.FindAssets("t:Prefab");
 
         TurretVariants.Clear();
 
+        var prefab_stage = PrefabStageUtility.GetCurrentPrefabStage();
+        if (prefab_stage)
+        {
+            if (prefab_stage.name != "ToyBoatPrefabBase")
+            {
+                TurretVariants = GetTurretVariants();
+            }
+        }
+        else 
+        {
+            TurretVariants = GetTurretVariants();
+        }
+    }
+
+    private List<GameObject> GetTurretVariants() 
+    {
+        var turret_variants = new List<GameObject>();
+        // Find all prefabs that are derived from the base prefab
+        string[] guids = AssetDatabase.FindAssets("t:Prefab");
         foreach (string guid in guids)
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
 
-            if (prefab != null && prefab.GetComponent<TurretComponent>() != null && prefab.name != ToyBoat.TurretBasePrefab.name)
+            if (prefab != null && prefab.GetComponent<TurretComponent>() != null && prefab.name != BoatPrefabBaseName)
             {
-                TurretVariants.Add(prefab);
+                turret_variants.Add(prefab);
                 Debug.Log($"Turret Variant: \"{prefab.name}\"");
             }
         }
+        return turret_variants;
     }
 
     public void Editor_ModifyTurretSlots(int modVal) {
@@ -173,8 +193,6 @@ public class ToyBoatEditor : Editor
     public override void OnInspectorGUI()
     {
         ToyBoat toy_boat = target as ToyBoat;
-
-        Editor_Validate();
             
         var prefab_stage = PrefabStageUtility.GetCurrentPrefabStage();
         if (prefab_stage != null) 
@@ -185,12 +203,12 @@ public class ToyBoatEditor : Editor
 
             if (prefab_name == "ToyBoatPrefabBase")
             {
-                EditorGUILayout.ObjectField("Turret Base Prefab", ToyBoat.TurretBasePrefab, typeof(GameObject), false);
                 EditorGUILayout.ObjectField("Empty Turret Prefab", ToyBoat.EmptyTurretPrefab, typeof(GameObject), false); 
                 EditorGUILayout.ObjectField("Turret Children Root", toy_boat.TurretChildenRoot, typeof(GameObject), true);
             }
             else
             {
+                Editor_Validate();
                 DrawCustomInspector();
             }
 
@@ -204,6 +222,8 @@ public class ToyBoatEditor : Editor
         }
         else 
         {
+            Editor_Validate();
+
             EditorGUILayout.LabelField($"Not In PrefabStage");
             DrawCustomInspector();
 

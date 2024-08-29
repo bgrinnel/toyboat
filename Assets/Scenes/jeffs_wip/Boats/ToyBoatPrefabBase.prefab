@@ -78,9 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b27d236c36673843b99e8cdbb4dcbcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TurretBasePrefab: {fileID: 3152678100356286937, guid: c7378e89d0124c740b9a43e0bf404363, type: 3}
-  EmptyTurretPrefab: {fileID: 3205076756927016791, guid: 7b629a4ca0d64324b95d9f7017c0a408, type: 3}
-  TurretChildenRoot: {fileID: 0}
+  TurretChildenRoot: {fileID: 5553772674161239683}
   TurretSlots: []
 --- !u!212 &3953015088779982648
 SpriteRenderer:

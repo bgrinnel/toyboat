@@ -3,10 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer), typeof(Collider2D))]
 public class ToyBoat : MonoBehaviour
 {
-    
-    [SerializeField]
-    public static GameObject TurretBasePrefab;
-    
     [SerializeField]
     public static GameObject EmptyTurretPrefab;
     
