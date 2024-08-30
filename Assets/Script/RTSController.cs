@@ -133,7 +133,8 @@ public class RTSController : MonoBehaviour
         }
         //GameObject[] selectedUnits = UnitController.instance.Selected();
         foreach (var unit in UnitController.instance.Selected()){
-            unit.transform.position = worldPos;
+            Ship_Follow_Script pass_Script = unit.GetComponent<Ship_Follow_Script>();
+            pass_Script.PassDestination(worldPos,UnitController.instance._shiftPressed);
         }
     }
 
