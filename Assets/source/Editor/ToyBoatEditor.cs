@@ -141,10 +141,9 @@ public class ToyBoatEditor : Editor
             toy_boat.turretSlots = new TurretSlot[num_turrets];
 
             for (int i = 0; i < num_turrets; ++i) {
-                Transform child = toy_boat.turretChildenRoot.GetChild(i);
-                var local_pos = CustomUtils.To2D(child.localPosition);
-                var new_slot = new TurretSlot(local_pos, child.localEulerAngles.y);
-                new_slot.turretComp = child.GetComponent<TurretComponent>();
+                Transform child_t = toy_boat.turretChildenRoot.GetChild(i);
+                var new_slot = new TurretSlot(child_t.localPosition, child_t.localEulerAngles.y);
+                new_slot.turretComp = child_t.GetComponent<TurretComponent>();
                 toy_boat.turretSlots[i] = new_slot;
             }
         }
@@ -154,10 +153,9 @@ public class ToyBoatEditor : Editor
             Editor_ModifyTurretSlots(num_turrets - num_slots);
             for (int i = num_slots; i < num_turrets; ++i) 
             {
-                Transform child = toy_boat.turretChildenRoot.GetChild(i);
-                var local_pos = CustomUtils.To2D(child.localPosition);
-                var new_slot = new TurretSlot(local_pos, child.localEulerAngles.y);
-                new_slot.turretComp = child.GetComponent<TurretComponent>();
+                Transform child_t = toy_boat.turretChildenRoot.GetChild(i);
+                var new_slot = new TurretSlot(child_t.localPosition, child_t.localEulerAngles.y);
+                new_slot.turretComp = child_t.GetComponent<TurretComponent>();
                 toy_boat.turretSlots[i] = new_slot;
             }
         }
@@ -255,7 +253,7 @@ public class ToyBoatEditor : Editor
         slot.turretComp = new_turret.GetComponent<TurretComponent>();
         new_turret.transform.localPosition = slot.localPosition;
         Vector3 turret_forward = new_turret.transform.localEulerAngles;
-        turret_forward.z = slot.initLocalAngle;
+        turret_forward.y = slot.initLocalAngle;
         new_turret.transform.localEulerAngles = turret_forward;
 
     }
@@ -296,34 +294,37 @@ public class ToyBoatEditor : Editor
         {
             FieldRects = new Rect[toy_boat.turretSlotCount];
         }
-        for (int slot = 0; slot < toy_boat.turretSlotCount; ++slot) 
+        for (int idx = 0; idx < toy_boat.turretSlotCount; ++idx) 
         {
-            var turret =  toy_boat.GetTurretChild(slot);
-            string variant_name = turret.gameObject.name.Split('(')[0];
+            var slot =  toy_boat.turretSlots[idx];
+            string variant_name = slot.turretComp.gameObject.name.Split('(')[0];
             int start_idx = turretVariants.ToListPooled().FindIndex(v => v.name == variant_name);
-            FieldRects[slot] = EditorGUILayout.GetControlRect();
-            int index = EditorGUI.Popup(FieldRects[slot], "Select Turret Variant", start_idx, turretVariants.Select(v => v.name).ToArray());
+            FieldRects[idx] = EditorGUILayout.GetControlRect();
+            int index = EditorGUI.Popup(FieldRects[idx], "Select Turret Variant", start_idx, turretVariants.Select(v => v.name).ToArray());
             if (index >= 0) {
                 if (variant_name != turretVariants[index].name)
                 {
-                    Editor_InstallTurret(slot, turretVariants[index]);
+                    Editor_InstallTurret(idx, turretVariants[index]);
                 }
-            }
-            if (slot == focusedTurret)
-            {
-                Vector3 angles = turret.transform.localRotation.eulerAngles;
-                float z = EditorGUILayout.Slider(angles.z, 0.0f, 360f);
-                if (z != angles.z)
+                else // can't destroy the obect and modify it in the same area
                 {
-                    turret.transform.SetLocalPositionAndRotation(turret.transform.localPosition, Quaternion.Euler(0, 0, z));
-                    toy_boat.turretSlots[slot].initLocalAngle = z;
-                }
-                Vector2 pos = CustomUtils.To2D(turret.transform.localPosition);
-                Vector2 new_pos = EditorGUILayout.Vector2Field("Local", pos);
-                if (!new_pos.Equals(pos))
-                {
-                    turret.transform.SetLocalPositionAndRotation(CustomUtils.To3D(new_pos), turret.transform.localRotation);
-                    toy_boat.turretSlots[slot].localPosition = new_pos;
+                    if (idx == focusedTurret)
+                    {
+                        float angle = slot.currLocalAngle;
+                        float new_angle = EditorGUILayout.Slider(angle, 0f, 360f);
+                        if (new_angle != angle)
+                        {
+                            slot.SetCurrLocalAngle(new_angle);
+                            slot.initLocalAngle = new_angle;
+                        }
+                        Vector2 pos = CustomUtils.To2D(slot.localPosition);
+                        Vector2 new_pos = EditorGUILayout.Vector2Field("Local", pos);
+                        if (!new_pos.Equals(pos))
+                        {
+                            slot.SetLocalPosition(new_pos);
+                            toy_boat.turretSlots[idx].localPosition = new_pos;
+                        }
+                    }
                 }
             }
         }

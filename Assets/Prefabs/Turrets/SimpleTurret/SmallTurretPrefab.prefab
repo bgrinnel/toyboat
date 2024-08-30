@@ -57,6 +57,18 @@ PrefabInstance:
       value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 1873974277015683541, guid: c7378e89d0124c740b9a43e0bf404363, type: 3}
+      propertyPath: fireRateSeconds
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873974277015683541, guid: c7378e89d0124c740b9a43e0bf404363, type: 3}
+      propertyPath: fireRotationSpeed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873974277015683541, guid: c7378e89d0124c740b9a43e0bf404363, type: 3}
+      propertyPath: fireRotationDegrees
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873974277015683541, guid: c7378e89d0124c740b9a43e0bf404363, type: 3}
       propertyPath: FireRoatationDegrees
       value: 30
       objectReference: {fileID: 0}

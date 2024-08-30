@@ -9,7 +9,7 @@ using UnityEngine;
 public struct TurretSlot 
 {
 
-    public Vector2 localPosition;
+    public Vector3 localPosition;
 
     /// <summary>
     /// The default Y of the turret in this slot that specifies the bounds TurretComponent.fireRotationDegrees is based on
@@ -30,9 +30,9 @@ public struct TurretSlot
     }
     public TurretComponent turretComp;
 
-    public TurretSlot(Vector2 rel_pos, float rel_forward) 
+    public TurretSlot(Vector3 local_pos, float rel_forward) 
     {
-        localPosition = rel_pos;
+        localPosition = local_pos;
         initLocalAngle = rel_forward;
         turretComp = null;
     }
@@ -64,7 +64,14 @@ public struct TurretSlot
     {
         Transform t = turretComp.transform;
         Vector3 eurlers = t.localRotation.eulerAngles;
-        t.SetLocalPositionAndRotation(t.localPosition, Quaternion.Euler(eurlers.x, angle, eurlers.z));
+        t.SetLocalPositionAndRotation(localPosition, Quaternion.Euler(eurlers.x, angle, eurlers.z));
+    }  
+    
+    public void SetLocalPosition(Vector3 local)
+    {
+        Transform t = turretComp.transform;
+        t.SetLocalPositionAndRotation(local, t.localRotation);
+        localPosition = local;
     }
     public void Fire(Vector3 target) 
     {

@@ -36,6 +36,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 1873974277015683541, guid: c7378e89d0124c740b9a43e0bf404363, type: 3}
+      propertyPath: fireRateSeconds
+      value: 1e+10
+      objectReference: {fileID: 0}
     - target: {fileID: 3152678100356286937, guid: c7378e89d0124c740b9a43e0bf404363, type: 3}
       propertyPath: m_Name
       value: EmptyTurretPrefab

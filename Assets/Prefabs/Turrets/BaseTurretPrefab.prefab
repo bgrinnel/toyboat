@@ -51,7 +51,7 @@ MonoBehaviour:
   fireRateSeconds: 0
   bComplexFiring: 0
   muzzleVelocity: 0
-  BallisticsVariant: {fileID: 0}
+  BallisticsVariant: {fileID: 6350013401423401673, guid: a96f0aa4ff5473245be9c2d90ccf75cc, type: 3}
 --- !u!1 &3795331098020256558
 GameObject:
   m_ObjectHideFlags: 0
