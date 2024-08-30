@@ -10,18 +10,28 @@ public class Gun : MonoBehaviour
 
     public GunObject gunObject; // Reference to the GunObject scriptable 
 
-    private bool ballistic;
+    private bool ballistic = false;
+
+    private bool reloading;
 
     public void Fire(Vector3 targetPosition)
     {
+        if (reloading)
+        {
+            return;
+        }
+
         if (!ballistic)
         {
             FireFlat(targetPosition);
         }
+
         else
         {
             FireBallistic(targetPosition);
         }
+
+        StartCoroutine(Reload());
     }
     // Flat trajectory firing
     public void FireFlat(Vector3 targetPosition)
@@ -35,5 +45,14 @@ public class Gun : MonoBehaviour
     {
         GameObject shell = Instantiate(gunObject.shellPrefab, transform.position, transform.rotation);
         shell.GetComponent<Shell>().LaunchBallistic(targetPosition, gunObject.muzzleVelocity);
+    }
+
+    private IEnumerator Reload()
+    {
+        reloading = true;
+        Debug.Log("Reloading...");
+        yield return new WaitForSeconds(gunObject.gunReload); // Wait for the reload time to complete
+        reloading = false;
+        Debug.Log("Reloaded!");
     }
 }

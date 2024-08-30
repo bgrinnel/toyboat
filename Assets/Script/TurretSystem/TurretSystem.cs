@@ -14,6 +14,7 @@ public class TurretSystem : MonoBehaviour
     [Range (0, 180)]
     private float currentAngle = 0f;
     private float startAngle; // The initial angle of the turret
+    private float angleDifference;
 
     void Start()
     {
@@ -25,6 +26,18 @@ public class TurretSystem : MonoBehaviour
     void Update()
     {
         TurretRotation(Aiming(target.position));
+        AutoFiring();
+    }
+
+    void AutoFiring()
+    {
+        if (target != null && Mathf.Abs(angleDifference) < 0.5f)
+        {
+            foreach (Gun gun in turretGuns)
+            {
+                gun.Fire(target.position);
+            }
+        }
     }
 
     Vector3 calculateTargetLeadPosition(Transform target, float shellSpeed)
@@ -52,7 +65,7 @@ public class TurretSystem : MonoBehaviour
         var turretMax = maxRotationAngle + startAngle;
         var turretMin = -maxRotationAngle + startAngle;
         float netAngles = transform.localEulerAngles.z - startAngle;
-        float angleDifference = Mathf.DeltaAngle(netAngles, targetLocalAngle);
+        angleDifference = Mathf.DeltaAngle(netAngles, targetLocalAngle);
         if (Mathf.Abs(targetLocalAngle) > maxRotationAngle)
         {
             Debug.Log("Status 1");
