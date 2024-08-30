@@ -5,26 +5,16 @@ using UnityEngine;
 public class Shell : MonoBehaviour
 {
     public ShellObject shellObject;
-    public float shellPenetration;
     public float shellDamage;
     private Vector3 targetPosition;
     private float speed;
     private float muzzleVelocity;
-    private bool AP;
+    private Vector3 shellStartPosition;
+
 
     private void Update()
     {
-        AP = shellObject.AP;
-        if (AP)
-        {
-            shellPenetration = shellObject.shellAPPenetration;
-            shellDamage = shellObject.shellAPDamage;
-        }
-        else
-        {
-            shellPenetration = shellObject.shellHEPenetration;
-            shellDamage = shellObject.shellHEDamage;
-        }
+
     }
     public void LaunchFlat(Vector3 target, float speed)
     {
@@ -43,10 +33,14 @@ public class Shell : MonoBehaviour
         Disintegrate();
     }
 
-    public void LaunchBallistic(Vector3 target, float timeToImpact, float muzzleVelocity)
+    public void LaunchBallistic(Vector3 target, float muzzleVelocity)
     {
         this.targetPosition = target;
         this.muzzleVelocity = muzzleVelocity;
+
+        float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
+        float timeToImpact = distanceToTarget / muzzleVelocity;
+
         StartCoroutine(BallisticMovement(timeToImpact));
     }
 
@@ -67,6 +61,7 @@ public class Shell : MonoBehaviour
         }
         Disintegrate();
     }
+
 
     // Destroy the shell after landing or reaching the ideal position
     void Disintegrate()
