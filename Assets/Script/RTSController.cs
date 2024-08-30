@@ -78,7 +78,7 @@ public class RTSController : MonoBehaviour
 
     void SelectUnitsWithinBox()
     {
-        Debug.Log("startpos " + startPos);
+
         Vector3 start = Camera.main.ScreenToWorldPoint(new Vector3(startPos.x, startPos.y, Camera.main.transform.position.z)) * -1;
         Vector3 end = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.z)) * -1;
        
@@ -101,7 +101,6 @@ public class RTSController : MonoBehaviour
         screenPos = Input.mousePosition;
         Ray ray = Camera.main.ScreenPointToRay(screenPos);
         if(Physics.Raycast(ray,  out RaycastHit hitData, 100, unitLayerMask)){
-            Debug.Log("hit");
             GameObject clickedUnit = hitData.collider.gameObject;
             UnitController.instance.DeSelectAll();
             UnitController.instance.Select(clickedUnit);
@@ -109,7 +108,6 @@ public class RTSController : MonoBehaviour
         }
         else
         {   
-            Debug.Log("deselect");
             UnitController.instance.DeSelectAll();
             // Handle deselection if needed
         }
@@ -128,12 +126,13 @@ public class RTSController : MonoBehaviour
     {
         screenPos = Input.mousePosition;
         Ray ray = Camera.main.ScreenPointToRay(screenPos);
-        if(Physics.Raycast(ray,  out RaycastHit hitData, 100, background)){
+        if(Physics.Raycast(ray,  out RaycastHit hitData, 1000, background)){
             worldPos = hitData.point;
         }
         //GameObject[] selectedUnits = UnitController.instance.Selected();
         foreach (var unit in UnitController.instance.Selected()){
-            unit.transform.position = worldPos;
+            Ship_Follow_Script pass_Script = unit.GetComponent<Ship_Follow_Script>();
+            pass_Script.PassDestination(worldPos,UnitController.instance._shiftPressed);
         }
     }
 
