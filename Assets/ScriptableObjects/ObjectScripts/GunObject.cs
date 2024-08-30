@@ -8,7 +8,6 @@ public class GunObject : ScriptableObject
     public string gunName;
     public float flatShellSpeed; // Speed for flat trajectory
     public float muzzleVelocity; // Muzzle velocity for ballistic trajectory
-    public ShellObject shellAP;
-    public ShellObject shellHE;
+    public float gunReload;
     public GameObject shellPrefab;
 }

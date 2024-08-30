@@ -5,7 +5,7 @@ using UnityEngine;
 public class Shell : MonoBehaviour
 {
     public ShellObject shellObject;
-    public float shellDamage;
+    private float shellDamage;
     private Vector3 targetPosition;
     private float speed;
     private float muzzleVelocity;
@@ -14,7 +14,7 @@ public class Shell : MonoBehaviour
 
     private void Update()
     {
-
+        shellDamage = shellObject.shellDamage;
     }
     public void LaunchFlat(Vector3 target, float speed)
     {
