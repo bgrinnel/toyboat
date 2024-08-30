@@ -6,7 +6,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 
-[CustomEditor(typeof(ToyBoat))]
+[CustomEditor(typeof(BoatComponent))]
 public class ToyBoatEditor : Editor
 {   
     private List<GameObject> turretVariants = new List<GameObject>();
@@ -25,7 +25,7 @@ public class ToyBoatEditor : Editor
 
     void OnEnable() 
     {
-        var toy_boat = target as ToyBoat;
+        var toy_boat = target as BoatComponent;
         focusedTurret = -1;
 
         // Debug.Log($"Enabling Editor for: \"{toy_boat.name}.InPrefabStage({bInstanceInPrefabStage})\"");
@@ -50,7 +50,7 @@ public class ToyBoatEditor : Editor
 
     void OnDisable()
     {
-        var toy_boat = target as ToyBoat;
+        var toy_boat = target as BoatComponent;
 
         string obj_name = toy_boat.IsDestroyed() ? "Destroyed" : toy_boat.name;
         // Debug.Log($"Disabling Editor for: \"{obj_name}.InPrefabStage({bInstanceInPrefabStage})\"");
@@ -98,7 +98,7 @@ public class ToyBoatEditor : Editor
     /// </summary>
     /// <param name="modVal">Added to the length of the TurretSlots array; </param>
     public void Editor_ModifyTurretSlots(int modVal) {
-        var toy_boat = target as ToyBoat;
+        var toy_boat = target as BoatComponent;
 
         var new_slots = new TurretSlot[toy_boat.turretSlots.Length+modVal];
         for (int i = 0; i < new_slots.Length; ++i) 
@@ -115,18 +115,18 @@ public class ToyBoatEditor : Editor
     /// Makes sure assets are valid prefabs
     /// </summary>
     public void Editor_Validate() {
-        ToyBoat toy_boat = target as ToyBoat;
+        BoatComponent toy_boat = target as BoatComponent;
         
         if (toy_boat.turretChildenRoot == null) toy_boat.turretChildenRoot = toy_boat.transform.GetChild(0);
 
         int num_turrets = toy_boat.turretChildenRoot.childCount;
         // my oopsie daisy code
-        if (num_turrets > ToyBoat.TURRET_COUNT_MAX)
+        if (num_turrets > BoatComponent.TURRET_COUNT_MAX)
         {
             int num_slots = toy_boat.turretSlotCount;
-            if (num_slots >= ToyBoat.TURRET_COUNT_MAX)
+            if (num_slots >= BoatComponent.TURRET_COUNT_MAX)
             {
-                Editor_ModifyTurretSlots(ToyBoat.TURRET_COUNT_MAX - num_slots);
+                Editor_ModifyTurretSlots(BoatComponent.TURRET_COUNT_MAX - num_slots);
             }
             for (int i = 0; i < num_turrets - num_slots; ++i) 
             {
@@ -142,8 +142,9 @@ public class ToyBoatEditor : Editor
 
             for (int i = 0; i < num_turrets; ++i) {
                 Transform child = toy_boat.turretChildenRoot.GetChild(i);
-                var new_slot = new TurretSlot(child.localPosition, child.localEulerAngles.z);
-                new_slot.Turret = child.GetComponent<TurretComponent>();
+                var local_pos = CustomUtils.To2D(child.localPosition);
+                var new_slot = new TurretSlot(local_pos, child.localEulerAngles.y);
+                new_slot.turretComp = child.GetComponent<TurretComponent>();
                 toy_boat.turretSlots[i] = new_slot;
             }
         }
@@ -154,8 +155,9 @@ public class ToyBoatEditor : Editor
             for (int i = num_slots; i < num_turrets; ++i) 
             {
                 Transform child = toy_boat.turretChildenRoot.GetChild(i);
-                var new_slot = new TurretSlot(child.localPosition, child.localEulerAngles.z);
-                new_slot.Turret = child.GetComponent<TurretComponent>();
+                var local_pos = CustomUtils.To2D(child.localPosition);
+                var new_slot = new TurretSlot(local_pos, child.localEulerAngles.y);
+                new_slot.turretComp = child.GetComponent<TurretComponent>();
                 toy_boat.turretSlots[i] = new_slot;
             }
         }
@@ -163,9 +165,9 @@ public class ToyBoatEditor : Editor
         {
             for (int i = 0; i < num_turrets; ++i) {
                 Transform child = toy_boat.turretChildenRoot.GetChild(i);
-                toy_boat.turretSlots[i].LocalPosition = child.localPosition;
-                toy_boat.turretSlots[i].LocalEurlerZ = child.localEulerAngles.z;
-                toy_boat.turretSlots[i].Turret = child.GetComponent<TurretComponent>();
+                toy_boat.turretSlots[i].localPosition = child.localPosition;
+                toy_boat.turretSlots[i].initLocalAngle = child.localEulerAngles.z;
+                toy_boat.turretSlots[i].turretComp = child.GetComponent<TurretComponent>();
             }
         }
     }
@@ -175,14 +177,14 @@ public class ToyBoatEditor : Editor
         if (bPrefabStageOpen)
         {
             var stage = PrefabStageUtility.GetCurrentPrefabStage();
-            var stage_boat_script = stage.prefabContentsRoot.GetComponent<ToyBoat>();
+            var stage_boat_script = stage.prefabContentsRoot.GetComponent<BoatComponent>();
             var turret = PrefabUtility.InstantiatePrefab(gameObject, stage.prefabContentsRoot.transform) as GameObject;
             turret.transform.SetParent(stage_boat_script.turretChildenRoot);
             return turret;
         }
         else
         {
-            var toy_boat = target as ToyBoat;
+            var toy_boat = target as BoatComponent;
             return Instantiate(gameObject, toy_boat.turretChildenRoot);
         }
     }
@@ -203,20 +205,20 @@ public class ToyBoatEditor : Editor
     /// Editor Only turret slot adder (adds to the end of array)
     /// </summary>
     public void Editor_AddTurretSlot() {
-        ToyBoat toy_boat = target as ToyBoat;
+        BoatComponent toy_boat = target as BoatComponent;
 
         var new_slot = new TurretSlot(new Vector2(), 0);
         Editor_ModifyTurretSlots(1);
         GameObject empty_turret = MakeTurretObject(emptyTurretPrefab);
         
-        new_slot.Turret = empty_turret.GetComponent<TurretComponent>();
+        new_slot.turretComp = empty_turret.GetComponent<TurretComponent>();
         toy_boat.turretSlots[toy_boat.turretSlots.Length-1] = new_slot;
     }
     /// <summary>
     /// Editor only turret slot remover (removes from end of array; FILO)
     /// </summary>
     public void Editor_RemoveTurretSlot() {
-        ToyBoat toy_boat = target as ToyBoat;
+        BoatComponent toy_boat = target as BoatComponent;
 
         if (toy_boat.turretSlotCount > 0)
         {
@@ -230,7 +232,7 @@ public class ToyBoatEditor : Editor
     /// Removes all turret slots from a prefab
     /// </summary>
     public void Editor_RemoveAllTurretSlots() {
-        ToyBoat toy_boat = target as ToyBoat;
+        BoatComponent toy_boat = target as BoatComponent;
 
         while (toy_boat.turretChildenRoot.childCount > 0) {
             DestroyTurretObject(toy_boat.turretChildenRoot.GetChild(0).gameObject);
@@ -244,23 +246,23 @@ public class ToyBoatEditor : Editor
     /// <param name="index">the index of TurretSlots to modify</param>
     /// <param name="turretVariant">the turret variant to be installed</param>
     public void Editor_InstallTurret(int index, GameObject turretVariant) {
-        ToyBoat toy_boat = target as ToyBoat;
+        BoatComponent toy_boat = target as BoatComponent;
 
         DestroyTurretObject(toy_boat.turretChildenRoot.GetChild(index).gameObject);
         GameObject new_turret = MakeTurretObject(turretVariant);
         new_turret.transform.SetSiblingIndex(index);
         TurretSlot slot = toy_boat.turretSlots[index];
-        slot.Turret = new_turret.GetComponent<TurretComponent>();
-        new_turret.transform.localPosition = slot.LocalPosition;
+        slot.turretComp = new_turret.GetComponent<TurretComponent>();
+        new_turret.transform.localPosition = slot.localPosition;
         Vector3 turret_forward = new_turret.transform.localEulerAngles;
-        turret_forward.z = slot.LocalEurlerZ;
+        turret_forward.z = slot.initLocalAngle;
         new_turret.transform.localEulerAngles = turret_forward;
 
     }
     private void DrawBaseInspector()
     {
-        ToyBoat toy_boat = target as ToyBoat;
-        ToyBoat.TURRET_COUNT_MAX = EditorGUILayout.IntField(new GUIContent("Turret Count Max"),  ToyBoat.TURRET_COUNT_MAX);
+        BoatComponent toy_boat = target as BoatComponent;
+        BoatComponent.TURRET_COUNT_MAX = EditorGUILayout.IntField(new GUIContent("Turret Count Max"),  BoatComponent.TURRET_COUNT_MAX);
         
         var empty_turret_prefab = EditorGUILayout.ObjectField("Empty Turret Prefab", emptyTurretPrefab, typeof(GameObject), false);
         if (empty_turret_prefab)
@@ -275,7 +277,7 @@ public class ToyBoatEditor : Editor
     /// </summary>
     private void DrawVariantInspector() 
     {
-        ToyBoat toy_boat = target as ToyBoat;
+        BoatComponent toy_boat = target as BoatComponent;
 
         if (GUILayout.Button(new GUIContent("Remove All Turret Slots")))
         {
@@ -314,15 +316,14 @@ public class ToyBoatEditor : Editor
                 if (z != angles.z)
                 {
                     turret.transform.SetLocalPositionAndRotation(turret.transform.localPosition, Quaternion.Euler(0, 0, z));
-                    toy_boat.turretSlots[slot].LocalEurlerZ = z;
+                    toy_boat.turretSlots[slot].initLocalAngle = z;
                 }
-                Vector3 pos3 = turret.transform.localPosition;
-                Vector3 pos = new Vector3(pos3.x, pos3.y);
+                Vector2 pos = CustomUtils.To2D(turret.transform.localPosition);
                 Vector2 new_pos = EditorGUILayout.Vector2Field("Local", pos);
                 if (!new_pos.Equals(pos))
                 {
-                    turret.transform.SetLocalPositionAndRotation(new Vector3(new_pos.x, new_pos.y, 0), turret.transform.localRotation);
-                    toy_boat.turretSlots[slot].LocalPosition = new_pos;
+                    turret.transform.SetLocalPositionAndRotation(CustomUtils.To3D(new_pos), turret.transform.localRotation);
+                    toy_boat.turretSlots[slot].localPosition = new_pos;
                 }
             }
         }
@@ -348,7 +349,7 @@ public class ToyBoatEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        ToyBoat toy_boat = target as ToyBoat;
+        BoatComponent toy_boat = target as BoatComponent;
 
         if (toy_boat.isActiveAndEnabled)
         {

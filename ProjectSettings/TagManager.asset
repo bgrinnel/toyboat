@@ -14,9 +14,9 @@ TagManager:
   - Unit
   - Background
   - 
-  - 
-  - 
-  - 
+  - PlayerUnit
+  - EnviromentUnit
+  - EnemyUnit
   - 
   - 
   - 

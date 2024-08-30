@@ -51,4 +51,14 @@ public static class CustomUtils
         // If the condition was met within the timeout, call the success callback
         onSuccess?.Invoke();
     }
+
+    public static Vector2 To2D(Vector3 vec3)
+    {
+        return new Vector2(vec3.z, vec3.x);
+    }
+
+    public static Vector3 To3D(Vector2 vec2)
+    {
+        return new Vector3(vec2.y, 0f, vec2.x);
+    }
 }
