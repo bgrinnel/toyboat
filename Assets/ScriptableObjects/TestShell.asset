@@ -12,8 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d94dba2d73742af418a9c56bcf9b31ed, type: 3}
   m_Name: TestShell
   m_EditorClassIdentifier: 
-  AP: 0
-  shellAPPenetration: 0
-  shellHEPenetration: 0
-  shellAPDamage: 0
-  shellHEDamage: 0
+  shellDamage: 4
