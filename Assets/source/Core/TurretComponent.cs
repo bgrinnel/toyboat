@@ -22,11 +22,13 @@ public class TurretComponent: MonoBehaviour
     /// <summary>
     /// a percentage drop off of damage for ships within the damage AOE. i.e. if ship in AOE; damage = base_dmg * pow(fall_off_percent, dist_meters)
     /// </summary>
+    [Tooltip("a percentage drop off of damage for ships within the damage AOE. i.e. if ship in AOE; damage = base_dmg * pow(fall_off_percent, dist_meters)")]
     [SerializeField] private float FireAOEDamageFalloffPerMeter;
 
     /// <summary>
     /// How far the turret can rotate from its forward direction (set to 180 if you want the turrets to be able to rotate freely)
     /// </summary>
+    [Tooltip("How far the turret can rotate from its forward direction (set to 180 if you want the turrets to be able to rotate freely)")]
     [SerializeField] private float FireRoatationDegrees;
 
     /// <summary>

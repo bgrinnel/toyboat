@@ -92,3 +92,6 @@ crashlytics-build.properties
 
 #notepad++ ignore
 *.bak
+
+#project specifics
+Assets\Scenes\jeffs_wip\*

@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 3953015088779982648}
   - component: {fileID: 288784994586376832}
   m_Layer: 0
-  m_Name: ToyBoatPrefabBase
+  m_Name: BaseToyBoatPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +61,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5553772674161239683}
   m_Father: {fileID: 0}
@@ -78,8 +78,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b27d236c36673843b99e8cdbb4dcbcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TurretChildenRoot: {fileID: 5553772674161239683}
-  TurretSlots: []
+  turretChildenRoot: {fileID: 5553772674161239683}
+  turnSpeed: 20
+  moveSpeedMax: 100
+  moveSpeedInit: 5
+  moveSpeedAcc: 7
+  moveSpeedDec: -15
+  turretSlots: []
 --- !u!212 &3953015088779982648
 SpriteRenderer:
   m_ObjectHideFlags: 0
