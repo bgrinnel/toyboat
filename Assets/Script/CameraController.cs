@@ -15,20 +15,22 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         if(Input.GetKey(KeyCode.W)) {
-            transform.position += Vector3.up * Time.deltaTime * cameraSpeed;
+            transform.position += Vector3.forward * Time.deltaTime * cameraSpeed;
         }
         if(Input.GetKey(KeyCode.A)) {
             transform.position += Vector3.left * Time.deltaTime * cameraSpeed;
         }
         if(Input.GetKey(KeyCode.S)) {
-            transform.position += Vector3.down * Time.deltaTime * cameraSpeed;
+            transform.position += Vector3.back * Time.deltaTime * cameraSpeed;
         }
         if(Input.GetKey(KeyCode.D)) {
             transform.position += Vector3.right * Time.deltaTime * cameraSpeed;
         }
         Vector3 pos = transform.position;
-        if((pos.z + (Input.mouseScrollDelta.y * scrollZoomSpeed)) > -20 && (pos.z + (Input.mouseScrollDelta.y * scrollZoomSpeed)) < -1)
+        if((pos.y - (Input.mouseScrollDelta.y * scrollZoomSpeed)) > 10 && (pos.y - (Input.mouseScrollDelta.y * scrollZoomSpeed)) < 80){
+            pos.y -= Input.mouseScrollDelta.y * scrollZoomSpeed;
             pos.z += Input.mouseScrollDelta.y * scrollZoomSpeed;
+        }
         transform.position = pos;
 
     }
