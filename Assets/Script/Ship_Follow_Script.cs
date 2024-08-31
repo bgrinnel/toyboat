@@ -10,6 +10,7 @@ public class Ship_Follow_Script : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float rotSpeed;
     [SerializeField] private GameObject target;
+    [SerializeField] private Transform parentship;
     List<Vector3> destinationList = new List<Vector3>();
     [SerializeField] private unit_movement move_Script;
     [SerializeField] private Vector3 targetPos;
@@ -26,26 +27,26 @@ public class Ship_Follow_Script : MonoBehaviour
         }
         
         float speedTick = Time.deltaTime * speed;
-        Vector3 targetDir = targetPos - transform.position;
+        Vector3 targetDir = targetPos - parentship.position;
 
         if(Quaternion.LookRotation(targetDir) != Quaternion.identity && targetPos != Vector3.zero){
             //Debug.Log(targetDir);
             Quaternion lookDir = Quaternion.LookRotation(targetDir);
-            transform.rotation =  Quaternion.RotateTowards(transform.rotation, lookDir, (rotSpeed * Time.deltaTime));
-            transform.position += transform.forward* speedTick;
+            parentship.rotation =  Quaternion.RotateTowards(parentship.rotation, lookDir, (rotSpeed * Time.deltaTime));
+            parentship.position += transform.forward* speedTick;
         }
         else if(targetPos != Vector3.zero){
-            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speedTick); 
+            parentship.position = Vector3.MoveTowards(parentship.position, target.transform.position, speedTick); 
         }
-        float dist = Vector3.Distance(targetPos, transform.position);
+        float dist = Vector3.Distance(targetPos, parentship.position);
         if (dist < 2f){
             targetPos = Vector3.zero;
         }
-        
+        parentship.position = new Vector3(parentship.position.x,0.8f,parentship.position.z);
         
     }
     public void PassDestination(Vector3 destPoint, bool shiftPressed){
-        destPoint = new Vector3(destPoint.x,10,destPoint.z);
+        //destPoint = new Vector3(destPoint.x,0.5f,destPoint.z);
        if(shiftPressed){
             destinationList.Add(destPoint);
         }

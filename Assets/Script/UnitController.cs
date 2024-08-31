@@ -9,6 +9,7 @@ public class UnitController : MonoBehaviour
     private static UnitController _instance;
     public static UnitController instance { get { return _instance; } }
     public bool _shiftPressed;
+    [SerializeField] CameraController camState;
     public bool _holdingCtrl;
     public List<GameObject>[] unitGroups = new List<GameObject>[10];
 

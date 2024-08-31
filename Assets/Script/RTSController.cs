@@ -13,6 +13,7 @@ public class RTSController : MonoBehaviour
     public float clickThreshold = 0.5f; // To distinguish between click and drag
 
     private Vector2 startPos;
+    [SerializeField] CameraController camState;
     private bool isDragging = false;
 
     private void Start()
@@ -35,7 +36,7 @@ public class RTSController : MonoBehaviour
             selectionBox.gameObject.SetActive(false); // Hide Selection box initially
         }
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0)&& camState.getSettingsMenu() == false)
         {
             // Check if dragging or clicking
             if (Vector2.Distance(startPos, Input.mousePosition) > clickThreshold)
@@ -46,7 +47,7 @@ public class RTSController : MonoBehaviour
             }
         }
         //left mouse click
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && camState.getSettingsMenu() == false)
         {
             if (isDragging)
             {

@@ -18,8 +18,8 @@ public class TurretSystem : MonoBehaviour
 
     void Start()
     {
-        startAngle = transform.localEulerAngles.z; //set initial turret angle
-        currentAngle = transform.localEulerAngles.z; //set curret turret angle
+        startAngle = transform.localEulerAngles.y; //set initial turret angle
+        currentAngle = transform.localEulerAngles.y; //set curret turret angle
     }
 
     // Update is called once per frame
@@ -56,7 +56,7 @@ public class TurretSystem : MonoBehaviour
     {
         Vector3 direction = targetPosition - transform.position; 
         float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; 
-        targetAngle -= ship.eulerAngles.z;
+        targetAngle -= ship.eulerAngles.y;
         float targetLocalAngle = Mathf.DeltaAngle(startAngle, targetAngle);
         return targetLocalAngle;
     }
@@ -64,11 +64,11 @@ public class TurretSystem : MonoBehaviour
     {
         var turretMax = maxRotationAngle + startAngle;
         var turretMin = -maxRotationAngle + startAngle;
-        float netAngles = transform.localEulerAngles.z - startAngle;
+        float netAngles = transform.localEulerAngles.y - startAngle;
         angleDifference = Mathf.DeltaAngle(netAngles, targetLocalAngle);
         if (Mathf.Abs(targetLocalAngle) > maxRotationAngle)
         {
-            Debug.Log("Status 1");
+            //Debug.Log("Status 1");
             float rotationStep = rotationSpeed * Time.deltaTime;
             if (targetLocalAngle > 0)
             {
@@ -84,9 +84,9 @@ public class TurretSystem : MonoBehaviour
         else
         {
             float rotationStep = Mathf.Sign(angleDifference) * rotationSpeed * Time.deltaTime;
-            Debug.Log("Sign Value: " + Mathf.Sign(angleDifference));
+            //Debug.Log("Sign Value: " + Mathf.Sign(angleDifference));
             currentAngle = Mathf.Clamp(currentAngle + rotationStep, turretMin, turretMax);
         }
-        transform.localRotation = Quaternion.Euler(0, 0, currentAngle);
+        transform.localRotation = Quaternion.Euler(0, currentAngle, 0);
     }
 }
