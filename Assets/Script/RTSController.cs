@@ -15,6 +15,7 @@ public class RTSController : MonoBehaviour
     private Vector2 startPos;
     [SerializeField] CameraController camState;
     private bool isDragging = false;
+    [SerializeField] private GameObject moveTargetEffect;
 
     private void Start()
     {
@@ -129,11 +130,13 @@ public class RTSController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(screenPos);
         if(Physics.Raycast(ray,  out RaycastHit hitData, 1000, background)){
             worldPos = hitData.point;
-        }
-        //GameObject[] selectedUnits = UnitController.instance.Selected();
-        foreach (var unit in UnitController.instance.Selected()){
-            Ship_Follow_Script pass_Script = unit.GetComponent<Ship_Follow_Script>();
-            pass_Script.PassDestination(worldPos,UnitController.instance._shiftPressed);
+            GameObject splashEffect = Instantiate(moveTargetEffect, worldPos, transform.rotation);
+            Destroy(splashEffect, 0.5f);
+            //GameObject[] selectedUnits = UnitController.instance.Selected();
+            foreach (var unit in UnitController.instance.Selected()){
+                Ship_Follow_Script pass_Script = unit.GetComponent<Ship_Follow_Script>();
+                pass_Script.PassDestination(worldPos,UnitController.instance._shiftPressed);
+            }
         }
     }
 
