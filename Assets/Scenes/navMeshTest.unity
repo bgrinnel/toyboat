@@ -730,6 +730,75 @@ MonoBehaviour:
   maxRotationAngle: 130
   turretGuns:
   - {fileID: 1358798869}
+--- !u!1001 &739230786
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.3434505
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.4581094
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
+      propertyPath: m_Name
+      value: Boat3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
 --- !u!1 &771890102
 GameObject:
   m_ObjectHideFlags: 0
@@ -1569,3 +1638,4 @@ SceneRoots:
   - {fileID: 260175579}
   - {fileID: 771890103}
   - {fileID: 2055729586}
+  - {fileID: 739230786}
