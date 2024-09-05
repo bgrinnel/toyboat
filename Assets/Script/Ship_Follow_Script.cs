@@ -10,6 +10,8 @@ public class Ship_Follow_Script : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float rotSpeed;
     [SerializeField] private GameObject target;
+    [SerializeField] private GameObject wakeLeft;
+    [SerializeField] private GameObject wakeRight;
     [SerializeField] private Transform parentship;
     List<Vector3> destinationList = new List<Vector3>();
     [SerializeField] private unit_movement move_Script;
@@ -21,22 +23,36 @@ public class Ship_Follow_Script : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if(targetPos == Vector3.zero && destinationList.Count !=0){
             targetPos = destinationList[0];
             destinationList.RemoveAt(0);
         }
         
         float speedTick = Time.deltaTime * speed;
-        Vector3 targetDir = targetPos - parentship.position;
+        Vector3 targetDir = new Vector3(targetPos.x - parentship.position.x, parentship.position.y, targetPos.z - parentship.position.z);
 
         if(Quaternion.LookRotation(targetDir) != Quaternion.identity && targetPos != Vector3.zero){
             //Debug.Log(targetDir);
-            Quaternion lookDir = Quaternion.LookRotation(targetDir);
+            Quaternion lookDir = Quaternion.LookRotation(targetDir,Vector3.up);
             parentship.rotation =  Quaternion.RotateTowards(parentship.rotation, lookDir, (rotSpeed * Time.deltaTime));
+            parentship.localEulerAngles = new Vector3(0, parentship.localEulerAngles.y, parentship.localEulerAngles.z);
             parentship.position += transform.forward* speedTick;
+            GameObject wakeL = Instantiate(wakeLeft, parentship);
+            wakeL.transform.parent = null;
+            Destroy(wakeL,2f);
+            GameObject wakeR = Instantiate(wakeRight, parentship);
+            wakeR.transform.parent = null;
+            Destroy(wakeR,2f);
         }
         else if(targetPos != Vector3.zero){
-            parentship.position = Vector3.MoveTowards(parentship.position, target.transform.position, speedTick); 
+            parentship.position = Vector3.MoveTowards(parentship.position, target.transform.position, speedTick);
+            GameObject wakeL = Instantiate(wakeLeft, parentship);
+            wakeL.transform.parent = null;
+            Destroy(wakeL,2f);
+            GameObject wakeR = Instantiate(wakeRight, parentship);
+            wakeR.transform.parent = null;
+            Destroy(wakeR,2f);
         }
         float dist = Vector3.Distance(targetPos, parentship.position);
         if (dist < 2f){
