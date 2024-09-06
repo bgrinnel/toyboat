@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/navMeshTest.unity
     guid: a3e3920d8bec4e44cb991b879bb79a81
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: 7c0ffa248d3e7e74d8d47c790e3dde82
+  - enabled: 1
+    path: Assets/Scenes/Main Menu.unity
+    guid: d10cdc1f8385abf4ab2841fdcf753f23
   m_configObjects: {}

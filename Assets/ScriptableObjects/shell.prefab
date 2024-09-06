@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 2798335460873365962}
   - component: {fileID: 5524820624193004230}
   - component: {fileID: 8038077094357992484}
+  - component: {fileID: -871343424689313302}
   m_Layer: 0
   m_Name: shell
-  m_TagString: Untagged
+  m_TagString: shell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,3 +99,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shellObject: {fileID: 11400000, guid: 684eebde5263b004a87f687805becdd3, type: 2}
+--- !u!135 &-871343424689313302
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5995291206162325059}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
