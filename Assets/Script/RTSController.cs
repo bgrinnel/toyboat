@@ -31,6 +31,7 @@ public class RTSController : MonoBehaviour
     void MouseInput()
     {
         /*
+        //Unit selection code
         if (Input.GetMouseButtonDown(0))
         {
             // CheckButtonPressed
@@ -67,6 +68,18 @@ public class RTSController : MonoBehaviour
         }
         */
         //right mouse click
+        if (Input.GetMouseButtonDown(0))
+        {
+            screenPos = Input.mousePosition;
+            Ray ray = Camera.main.ScreenPointToRay(screenPos);
+            if(Physics.Raycast(ray,  out RaycastHit hitData2, 1000, enemy)){
+                Transform clickedEnemy = hitData2.collider.transform;
+                foreach (var unit in UnitController.instance.Selected()){
+                    Ship_Follow_Script pass_Script = unit.GetComponent<Ship_Follow_Script>();
+                    pass_Script.PassTarget(clickedEnemy);
+                }
+            }
+        }
         if (Input.GetMouseButtonUp(1))
         {
             RightMouseClick();
@@ -131,14 +144,7 @@ public class RTSController : MonoBehaviour
     {
         screenPos = Input.mousePosition;
         Ray ray = Camera.main.ScreenPointToRay(screenPos);
-        if(Physics.Raycast(ray,  out RaycastHit hitData2, 1000, enemy)){
-            Transform clickedEnemy = hitData2.collider.transform;
-            foreach (var unit in UnitController.instance.Selected()){
-                Ship_Follow_Script pass_Script = unit.GetComponent<Ship_Follow_Script>();
-                pass_Script.PassTarget(clickedEnemy);
-            }
-        }
-        else if(Physics.Raycast(ray,  out RaycastHit hitData, 1000, background)){
+        if(Physics.Raycast(ray,  out RaycastHit hitData, 1000, background)){
             worldPos = hitData.point;
             GameObject splashEffect = Instantiate(moveTargetEffect, worldPos, transform.rotation);
             Destroy(splashEffect, 0.5f);
