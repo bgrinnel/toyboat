@@ -25,8 +25,10 @@ public class TurretSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TurretRotation(Aiming(target.position));
-        AutoFiring();
+        if(target!= null){
+            TurretRotation(Aiming(target.position));
+            AutoFiring();
+        }
     }
 
     void AutoFiring()

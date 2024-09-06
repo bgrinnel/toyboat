@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Ship_Follow_Script : MonoBehaviour
 {
 
 
 //could do gotoPoint instead, with first halfturn and second moveTowards
+    [SerializeField] private float playerHP;
     [SerializeField] private float speed;
     [SerializeField] private float rotSpeed;
     [SerializeField] private GameObject target;
@@ -74,6 +76,12 @@ public class Ship_Follow_Script : MonoBehaviour
     }
     public void PassTarget(Transform target){
        turretSys.setTarget(target);
+    }
+    public void DamagePlayer(float damage){
+        playerHP -= damage;
+        if(playerHP <= 0){
+            SceneManager.LoadScene("GameOver");
+        }
     }
     /*
     //stack overflow code
