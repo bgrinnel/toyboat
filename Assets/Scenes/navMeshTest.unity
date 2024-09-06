@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 260175578}
   - component: {fileID: 260175577}
   - component: {fileID: 260175576}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -372,6 +372,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &328597700 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 811d71d485784f9438b0897905c28994, type: 3}
+  m_PrefabInstance: {fileID: 2055729586}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &360820515
 GameObject:
   m_ObjectHideFlags: 0
@@ -669,7 +674,6 @@ GameObject:
   - component: {fileID: 637615408}
   - component: {fileID: 637615407}
   - component: {fileID: 637615411}
-  - component: {fileID: 637615412}
   m_Layer: 6
   m_Name: ship
   m_TagString: Untagged
@@ -785,25 +789,8 @@ MonoBehaviour:
   move_Script: {fileID: 176067406}
   targetPos: {x: 0, y: 0, z: 0}
   rotationSpeed: 1
+  turretSys: {fileID: 1358798873}
   agent: {fileID: 176067407}
---- !u!114 &637615412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 637615404}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e644ad8009662d47aa98d3ac9f3658a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 1445462904}
-  ship: {fileID: 637615410}
-  rotationSpeed: 5
-  maxRotationAngle: 130
-  turretGuns:
-  - {fileID: 1358798869}
 --- !u!4 &721708241 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
@@ -1294,7 +1281,7 @@ GameObject:
   - component: {fileID: 1358798869}
   - component: {fileID: 1358798873}
   m_Layer: 0
-  m_Name: Cube (2)
+  m_Name: Turret1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1412,7 +1399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e644ad8009662d47aa98d3ac9f3658a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1445462904}
+  target: {fileID: 260175579}
   ship: {fileID: 637615410}
   rotationSpeed: 30
   maxRotationAngle: 130
@@ -1457,8 +1444,12 @@ MonoBehaviour:
   background:
     serializedVersion: 2
     m_Bits: 128
+  enemy:
+    serializedVersion: 2
+    m_Bits: 2048
   clickThreshold: 0.5
   camState: {fileID: 1642484388}
+  moveTargetEffect: {fileID: 2474267287244144240, guid: 16b0d982aaae6b44a85c093828f0157f, type: 3}
 --- !u!4 &1393258190
 Transform:
   m_ObjectHideFlags: 0
@@ -1486,15 +1477,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6924bb185d6970a48b7fe9bfdc8b7975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _selectedUnits: []
+  _selectedUnits:
+  - {fileID: 637615404}
   _shiftPressed: 0
   camState: {fileID: 1642484388}
   _holdingCtrl: 0
---- !u!4 &1445462904 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 811d71d485784f9438b0897905c28994, type: 3}
-  m_PrefabInstance: {fileID: 2055729586}
+--- !u!135 &1445462905
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 328597700}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.03
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1474890347
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1917,10 +1925,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: DUCK
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 811d71d485784f9438b0897905c28994, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 811d71d485784f9438b0897905c28994, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1445462905}
   m_SourcePrefab: {fileID: 100100000, guid: 811d71d485784f9438b0897905c28994, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

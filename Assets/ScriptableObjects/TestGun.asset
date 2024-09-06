@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TestGun
   m_EditorClassIdentifier: 
   gunName: 
-  flatShellSpeed: 1
-  muzzleVelocity: 1
+  flatShellSpeed: 10
+  muzzleVelocity: 10
   gunReload: 5
-  shellPrefab: {fileID: 5995291206162325059, guid: 5112398c8b553264fa64bf01340ef574, type: 3}
+  shellPrefab: {fileID: 992861267976375079, guid: 8f5861f1ef5b1804ba087778a244d803, type: 3}

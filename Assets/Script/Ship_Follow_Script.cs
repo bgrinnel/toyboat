@@ -17,6 +17,7 @@ public class Ship_Follow_Script : MonoBehaviour
     [SerializeField] private unit_movement move_Script;
     [SerializeField] private Vector3 targetPos;
     [SerializeField] private float rotationSpeed;
+    [SerializeField] private TurretSystem turretSys;
     [SerializeField] private UnityEngine.AI.NavMeshAgent agent;
     
 
@@ -70,6 +71,9 @@ public class Ship_Follow_Script : MonoBehaviour
             destinationList.Clear();
             targetPos = destPoint;
         }
+    }
+    public void PassTarget(Transform target){
+       turretSys.setTarget(target);
     }
     /*
     //stack overflow code

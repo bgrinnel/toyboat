@@ -10,6 +10,7 @@ public class RTSController : MonoBehaviour
     public Vector3 worldPos;
     public LayerMask unitLayerMask;
     public LayerMask background;
+    public LayerMask enemy;
     public float clickThreshold = 0.5f; // To distinguish between click and drag
 
     private Vector2 startPos;
@@ -29,6 +30,7 @@ public class RTSController : MonoBehaviour
     }
     void MouseInput()
     {
+        /*
         if (Input.GetMouseButtonDown(0))
         {
             // CheckButtonPressed
@@ -63,6 +65,7 @@ public class RTSController : MonoBehaviour
                 SelectSingleUnit();
             }
         }
+        */
         //right mouse click
         if (Input.GetMouseButtonUp(1))
         {
@@ -128,7 +131,14 @@ public class RTSController : MonoBehaviour
     {
         screenPos = Input.mousePosition;
         Ray ray = Camera.main.ScreenPointToRay(screenPos);
-        if(Physics.Raycast(ray,  out RaycastHit hitData, 1000, background)){
+        if(Physics.Raycast(ray,  out RaycastHit hitData2, 1000, enemy)){
+            Transform clickedEnemy = hitData2.collider.transform;
+            foreach (var unit in UnitController.instance.Selected()){
+                Ship_Follow_Script pass_Script = unit.GetComponent<Ship_Follow_Script>();
+                pass_Script.PassTarget(clickedEnemy);
+            }
+        }
+        else if(Physics.Raycast(ray,  out RaycastHit hitData, 1000, background)){
             worldPos = hitData.point;
             GameObject splashEffect = Instantiate(moveTargetEffect, worldPos, transform.rotation);
             Destroy(splashEffect, 0.5f);
@@ -138,6 +148,7 @@ public class RTSController : MonoBehaviour
                 pass_Script.PassDestination(worldPos,UnitController.instance._shiftPressed);
             }
         }
+        
     }
 
     void ShiftAndCtrlInput()

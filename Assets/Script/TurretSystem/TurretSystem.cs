@@ -39,6 +39,10 @@ public class TurretSystem : MonoBehaviour
             }
         }
     }
+    public void setTarget(Transform newTarget)
+    {
+        target = newTarget;
+    }
 
     Vector3 calculateTargetLeadPosition(Transform target, float shellSpeed)
     {
