@@ -15,5 +15,5 @@ MonoBehaviour:
   gunName: 
   flatShellSpeed: 10
   muzzleVelocity: 10
-  gunReload: 5
+  gunReload: 2
   shellPrefab: {fileID: 992861267976375079, guid: 8f5861f1ef5b1804ba087778a244d803, type: 3}
