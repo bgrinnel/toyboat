@@ -37,7 +37,7 @@ public class enemyScript : MonoBehaviour
         Debug.Log("hit" + OtherObject.gameObject.tag);
         if(OtherObject.gameObject.tag == "shell"){
             Destroy(OtherObject.gameObject);
-            Destroy(this);
+            Destroy(this.gameObject);
         }
         else if(OtherObject.gameObject.tag == "Player"){
            SceneManager.LoadScene("GameOver");

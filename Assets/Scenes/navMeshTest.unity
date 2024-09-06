@@ -1414,8 +1414,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 260175579}
   ship: {fileID: 637615410}
-  rotationSpeed: 30
-  maxRotationAngle: 130
+  rotationSpeed: 100
+  maxRotationAngle: 200
   turretGuns:
   - {fileID: 1358798869}
 --- !u!1 &1393258187
