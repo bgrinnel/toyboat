@@ -13,7 +13,7 @@ public class UnitSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GameModeObject.Register(this);
     }
 
     // Update is called once per frame
@@ -42,5 +42,9 @@ public class UnitSpawner : MonoBehaviour
     private void SpawnUnit(GameObject prefab)
     {
         Instantiate(prefab, transform.position, transform.rotation);
+    }
+    void OnDestroyed()
+    {
+        GameModeObject.Unregister(this);
     }
 }

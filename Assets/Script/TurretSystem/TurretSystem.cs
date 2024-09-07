@@ -18,6 +18,7 @@ public class TurretSystem : MonoBehaviour
 
     void Start()
     {
+        GameModeObject.Register(this);
         startAngle = transform.localEulerAngles.y; //set initial turret angle
         currentAngle = transform.localEulerAngles.y; //set curret turret angle
     }
@@ -94,5 +95,10 @@ public class TurretSystem : MonoBehaviour
             currentAngle = Mathf.Clamp(currentAngle + rotationStep, turretMin, turretMax);
         }
         transform.localRotation = Quaternion.Euler(0, currentAngle, 0);
+    }
+
+    void OnDestroyed()
+    {
+        GameModeObject.Unregister(this);
     }
 }

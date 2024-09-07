@@ -22,7 +22,10 @@ public class Ship_Follow_Script : MonoBehaviour
     [SerializeField] private TurretSystem turretSys;
     [SerializeField] private UnityEngine.AI.NavMeshAgent agent;
     
-
+    void Start()
+    {
+        GameModeObject.Register(this);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -80,7 +83,7 @@ public class Ship_Follow_Script : MonoBehaviour
     public void DamagePlayer(float damage){
         playerHP -= damage;
         if(playerHP <= 0){
-            SceneManager.LoadScene("GameOver");
+            GameModeObject.LoadScene("GameOver");
         }
     }
     /*
@@ -122,6 +125,10 @@ public class Ship_Follow_Script : MonoBehaviour
             distance = distance - LineSegment[i].length
     }
     */
+    void OnDestroyed()
+    {
+        GameModeObject.Unregister(this);
+    }
     
 
 }
