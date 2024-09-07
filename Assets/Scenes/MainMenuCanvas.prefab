@@ -1684,7 +1684,7 @@ GameObject:
   - component: {fileID: 31106109700285946}
   - component: {fileID: 1597529160454655449}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: MainMenuCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1783,11 +1783,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8236946297878524847}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6a05168c6d9e8542b148390afa8ef0d, type: 3}
+  m_Script: {fileID: 11500000, guid: f00a3577bb1292e499a56f49daaa2d24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainMenu: {fileID: 6572470201573989434}
-  settingsMenu: {fileID: 2418579487911589571}
+  settingsMenu: {fileID: 7623460627776999999}
+  survivalScene: {fileID: 102900000, guid: a3e3920d8bec4e44cb991b879bb79a81, type: 3}
 --- !u!1 &8329010633397042693
 GameObject:
   m_ObjectHideFlags: 0

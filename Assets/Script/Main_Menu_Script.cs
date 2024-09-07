@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,9 +13,11 @@ public class MainMenuScript : MonoBehaviour
     private GameObject tutorialMenu;
     [SerializeField]
     private GameObject settingsMenu;
+
+    [SerializeField] private SceneAsset survivalScene;
     public void PlayButton()
     {
-        SceneManager.LoadScene("navMeshTest");
+        SceneManager.LoadScene(survivalScene.name);
     }
     public void SettingsButton()
     {
