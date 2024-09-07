@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 
 public class enemyScript : MonoBehaviour
 {
     [SerializeField] private float enemyHP;
+    [SerializeField] private float damage;
     [SerializeField] private float speed;
     [SerializeField] private float rotSpeed;
     [SerializeField] private GameObject player;
+    [SerializeField] private GameObject HitEffect;
+    private bool sinking;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,29 +21,51 @@ public class enemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float speedTick = Time.deltaTime * speed;
-        Vector3 targetDir = new Vector3(player.transform.position.x - transform.position.x,transform.position.y, player.transform.position.z - transform.position.z);
+        if(!sinking){
+            float speedTick = Time.deltaTime * speed;
+            Vector3 targetDir = new Vector3(player.transform.position.x - transform.position.x,transform.position.y, player.transform.position.z - transform.position.z);
 
-        if(Quaternion.LookRotation(targetDir) != Quaternion.identity ){
-            //Debug.Log(targetDir);
-            Quaternion lookDir = Quaternion.LookRotation(targetDir,Vector3.up);
-            transform.rotation =  Quaternion.RotateTowards(transform.rotation, lookDir, (rotSpeed * Time.deltaTime));
-            transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, transform.localEulerAngles.z);
-            transform.position += transform.forward* speedTick;
+            if(Quaternion.LookRotation(targetDir) != Quaternion.identity ){
+                //Debug.Log(targetDir);
+                Quaternion lookDir = Quaternion.LookRotation(targetDir,Vector3.up);
+                transform.rotation =  Quaternion.RotateTowards(transform.rotation, lookDir, (rotSpeed * Time.deltaTime));
+                transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, transform.localEulerAngles.z);
+                transform.position += transform.forward* speedTick;
+            }
+            else{
+                transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speedTick);
+            }
         }
         else{
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speedTick);
+            transform.Translate(Vector3.down * Time.deltaTime*10f);
+            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, Time.deltaTime * speed);
         }
         
     }
     private void OnCollisionEnter(Collision OtherObject){
         Debug.Log("hit" + OtherObject.gameObject.tag);
         if(OtherObject.gameObject.tag == "shell"){
+            
+            Shell shellScript = OtherObject.gameObject.GetComponent<Shell>();
+            enemyHP -=shellScript.GetShellDamage();
+            if(enemyHP <= 0){
+                sinking = true;
+                Destroy(this.GetComponent<Rigidbody>());
+                GameObject hitEff = Instantiate(HitEffect, this.transform.position,Quaternion.identity);
+                Debug.Log(this.transform.rotation + " " + hitEff.transform.rotation);
+                Destroy(this.gameObject, 1.5f);
+            }
+            else{
+                GameObject hitEff = Instantiate(HitEffect, this.transform.position,Quaternion.identity);
+            }
             Destroy(OtherObject.gameObject);
-            Destroy(this.gameObject);
         }
         else if(OtherObject.gameObject.tag == "Player"){
-           SceneManager.LoadScene("GameOver");
+            Ship_Follow_Script playerScript = OtherObject.gameObject.GetComponent<Ship_Follow_Script>();
+            playerScript.DamagePlayer(damage);
+            sinking = true;
+            Destroy(this.gameObject,1.5f);
+            
         }
     }
 }
