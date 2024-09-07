@@ -68,4 +68,8 @@ public class Shell : MonoBehaviour
     {
         Destroy(gameObject, 2f); // Delay before destruction
     }
+    public float GetShellDamage()
+    {
+        return(shellDamage);
+    }
 }

@@ -124,6 +124,7 @@ MonoBehaviour:
   speed: 7
   rotSpeed: 45
   player: {fileID: 0}
+  HitEffect: {fileID: 5350138353136561503, guid: 89fce140c6036114ba39786bda6ad7f9, type: 3}
 --- !u!54 &5629977187297040602
 Rigidbody:
   m_ObjectHideFlags: 0
