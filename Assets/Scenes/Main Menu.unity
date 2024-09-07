@@ -391,6 +391,10 @@ PrefabInstance:
       propertyPath: m_MaxValue
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 1472521296470346720, guid: 531cf7f6a68bcdf4e8335a5b9e5ac504, type: 3}
+      propertyPath: survivalScene
+      value: 
+      objectReference: {fileID: 102900000, guid: a3e3920d8bec4e44cb991b879bb79a81, type: 3}
     - target: {fileID: 4145968075906191026, guid: 531cf7f6a68bcdf4e8335a5b9e5ac504, type: 3}
       propertyPath: m_Pivot.x
       value: 0
