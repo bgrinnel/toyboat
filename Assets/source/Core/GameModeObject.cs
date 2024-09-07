@@ -1,9 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity;
 using Unity.VisualScripting;
 using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameModeObject : ManagerObject<GameModeObject>
 {
@@ -23,7 +25,6 @@ public class GameModeObject : ManagerObject<GameModeObject>
         deactivatableObjects = new();
         bGameModePaused = false;
     }
-
     // Update is called once per frame
     protected virtual void Update()
     {
@@ -91,6 +92,19 @@ public class GameModeObject : ManagerObject<GameModeObject>
         Time.timeScale = bGameModePaused ? 0f : 1f;
         pauseEvent?.Invoke(bGameModePaused);
     }
+
+    public static void LoadScene(string sceneName)
+    {
+        var mode = GameModeObject.Get();
+        var active_scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+        mode.SetPaused(false);
+        // var unloader = SceneManager.UnloadSceneAsync(active_scene);
+        // // Destroy(mode)
+        // while (unloader is not null) {
+        //     if (unloader.isDone) return;
+        // }
+    }
     
     public static void Register(UnityEngine.Object other)
     {
@@ -116,5 +130,11 @@ public class GameModeObject : ManagerObject<GameModeObject>
         else if (game_obj is not null) mode.UnregisterDisabeableObjects(game_obj);
         else throw new InvalidCastException($"Only GameObjects or MonoBehaviours can register with a GameMode: Obj_name:{other.name} typeof({other.GetType()})");
         return;
+    }
+
+    protected new virtual void OnDestroyed()
+    {
+        base.OnDestroyed();
+        Time.timeScale = 1f;
     }
 }

@@ -468,7 +468,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8357729377389555052}
         m_TargetAssemblyTypeName: SurvivalGUIManager, Assembly-CSharp
-        m_MethodName: OnContinueGameBtnClicked
+        m_MethodName: OnMainMenuBtnClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1281,7 +1281,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84abadd5bea29348961f4a46918e213, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ScoreFormat: 'Score : {0}'
+  MainMenuScene: {fileID: 0}
   playerGUICanvas: {fileID: 6572470201573989434}
   pauseSettingsCanvas: {fileID: 5875427257926516658}
   scoreText: {fileID: 6492592112735831528}
-  ScoreFormat: 'Score : {0}'

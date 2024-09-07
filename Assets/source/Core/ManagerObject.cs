@@ -17,17 +17,16 @@ public class ManagerObject<SubclassT> : MonoBehaviour where SubclassT : MonoBeha
             if (singletons.ContainsKey(subclass_type))
             {
                 Debug.LogWarning($"Manager \"{subclass_type}\" already exists in the Scene. This may lead to unexpected behavior.");
+                DestroyImmediate(singletons[subclass_type]);
             }
-            else
-            {
-                Debug.Log($"New Manager Created! Name:\"{this.name}\" | typeof({typeof(SubclassT)}) | GetType({this.GetType()})");
-                singletons[subclass_type] = this;
-            }
+            Debug.Log($"New Manager Created! Name:\"{this.name}\" | typeof({typeof(SubclassT)}) | GetType({this.GetType()})");
+            singletons[subclass_type] = this;
         }
     }
 
     protected virtual void OnDestroyed()
     {
+        Debug.Log($"Destroying Manager: \"{typeof(SubclassT)}\"");
         lock(singletons)
         {
             singletons.Remove(typeof(SubclassT));

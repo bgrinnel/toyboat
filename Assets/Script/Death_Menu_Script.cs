@@ -24,11 +24,11 @@ public class DeathMenuScript : MonoBehaviour
 
     public void OnMainMenuBtnClicked()
     {
-        SceneManager.LoadScene(mainMenuScene.name);
+        SceneManager.LoadScene(mainMenuScene.name, LoadSceneMode.Single);
     }
 
     public void OnTryAgainBtnClicked()
     {
-        SceneManager.LoadScene(survivalScene.name);
+        SceneManager.LoadScene(survivalScene.name, LoadSceneMode.Single);
     }
 }

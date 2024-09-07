@@ -1974,6 +1974,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1797347293}
     - target: {fileID: 8357729377389555052, guid: f80b902d00b6f6b44a1910bec463e680, type: 3}
+      propertyPath: MainMenuScene
+      value: 
+      objectReference: {fileID: 102900000, guid: d10cdc1f8385abf4ab2841fdcf753f23, type: 3}
+    - target: {fileID: 8357729377389555052, guid: f80b902d00b6f6b44a1910bec463e680, type: 3}
       propertyPath: pauseSettingsCanvas
       value: 
       objectReference: {fileID: 18672260}

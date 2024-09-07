@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class SurvivalModeManager : GameModeObject
 {
+
     public delegate void ScoreEvent(float addScore, float multScore = 1.0f);
     public delegate void ScoreUpdate(float newScore);
     [HideInInspector] public ScoreUpdate scoreUpdate;
@@ -12,13 +13,13 @@ public class SurvivalModeManager : GameModeObject
     [HideInInspector] private float score;
     
 
-    protected new virtual void Awake()
+    protected override void Awake()
     {
         base.Awake();
         Debug.Log("SurvivalGameMode Awake");
     }
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         ongoingScoreEvents = new();
         score = 0;

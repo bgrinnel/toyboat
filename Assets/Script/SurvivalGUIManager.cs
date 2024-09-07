@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SurvivalGUIManager : ManagerObject<SurvivalGUIManager>
@@ -11,11 +13,12 @@ public class SurvivalGUIManager : ManagerObject<SurvivalGUIManager>
 
     private int scoreTxtSrc;
     private bool bScoreChanged;
+    [SerializeField] private string ScoreFormat = "Score : {0}";
+    [SerializeField] private SceneAsset MainMenuScene;
+
     public GameObject playerGUICanvas;
     public GameObject pauseSettingsCanvas;
     public TMP_Text scoreText;
-    [SerializeField] private string ScoreFormat = "Score : {0}";
-
 
     protected new virtual void Awake()
     {
@@ -67,6 +70,12 @@ public class SurvivalGUIManager : ManagerObject<SurvivalGUIManager>
     {
         SurvivalModeManager.Get().SetPaused(false);
     }
+    
+    public void OnMainMenuBtnClicked()
+    {
+        GameModeObject.LoadScene(MainMenuScene.name);
+    }
+
 
     public void OnPauseEvent(bool bPaused)
     {
