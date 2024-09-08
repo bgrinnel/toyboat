@@ -83,7 +83,7 @@ public class Ship_Follow_Script : MonoBehaviour
     public void DamagePlayer(float damage){
         playerHP -= damage;
         if(playerHP <= 0){
-            GameModeObject.LoadScene("GameOver");
+            SceneManager.LoadScene("GameOver");
         }
     }
     /*

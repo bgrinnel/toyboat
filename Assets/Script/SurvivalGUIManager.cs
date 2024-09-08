@@ -73,7 +73,7 @@ public class SurvivalGUIManager : ManagerObject<SurvivalGUIManager>
     
     public void OnMainMenuBtnClicked()
     {
-        GameModeObject.LoadScene(MainMenuScene.name);
+        SceneManager.LoadScene(MainMenuScene.name);
     }
 
 
