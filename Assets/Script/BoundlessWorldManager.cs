@@ -94,8 +94,16 @@ public class BoundlessWorldManager : ManagerObject<BoundlessWorldManager>
             tilePool[idx].transform.position = pos;
         }
     }
+
     void OnPauseEvent(bool bPaused)
     {
         enabled = !bPaused;
+    }
+
+    public override void DestroyOnSceneUnload(Scene _old)
+    {
+        var mode = GameModeObject.Get();
+        if (mode != null) mode.pauseEvent -= OnPauseEvent;
+        base.DestroyOnSceneUnload(_old);
     }
 }
