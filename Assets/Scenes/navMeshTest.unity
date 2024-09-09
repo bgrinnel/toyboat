@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 176067408}
   - component: {fileID: 176067407}
   - component: {fileID: 176067406}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: navAgent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,6 +272,71 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 176067404}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &294402693
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1046830301936062823, guid: e46760c81f56c824f92b104654ba26b5, type: 3}
+      propertyPath: m_Name
+      value: TimeBonusPickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 3765823528105575217, guid: e46760c81f56c824f92b104654ba26b5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 3765823528105575217, guid: e46760c81f56c824f92b104654ba26b5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 14.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 7029654452094268822, guid: e46760c81f56c824f92b104654ba26b5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.8819833
+      objectReference: {fileID: 0}
+    - target: {fileID: 7029654452094268822, guid: e46760c81f56c824f92b104654ba26b5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7029654452094268822, guid: e46760c81f56c824f92b104654ba26b5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.3996754
+      objectReference: {fileID: 0}
+    - target: {fileID: 7029654452094268822, guid: e46760c81f56c824f92b104654ba26b5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7029654452094268822, guid: e46760c81f56c824f92b104654ba26b5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7029654452094268822, guid: e46760c81f56c824f92b104654ba26b5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7029654452094268822, guid: e46760c81f56c824f92b104654ba26b5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7029654452094268822, guid: e46760c81f56c824f92b104654ba26b5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7029654452094268822, guid: e46760c81f56c824f92b104654ba26b5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7029654452094268822, guid: e46760c81f56c824f92b104654ba26b5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e46760c81f56c824f92b104654ba26b5, type: 3}
 --- !u!1 &360820515
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,7 +486,7 @@ GameObject:
   - component: {fileID: 637615408}
   - component: {fileID: 637615411}
   - component: {fileID: 637615412}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: ship
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -617,9 +682,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5188011040409599484, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -3167299574701864104, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -1439429765497973166, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
       propertyPath: m_Name
       value: Boat3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4546921704259832383, guid: 8d22a2bd79fe3d94488c507c33cd097c, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -635,7 +720,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 771890103}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: shipParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -768,7 +853,7 @@ GameObject:
   - component: {fileID: 1358798870}
   - component: {fileID: 1358798869}
   - component: {fileID: 1358798873}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Turret1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -904,7 +989,6 @@ GameObject:
   - component: {fileID: 1393258190}
   - component: {fileID: 1393258189}
   - component: {fileID: 1393258191}
-  - component: {fileID: 1393258192}
   m_Layer: 0
   m_Name: controller
   m_TagString: Untagged
@@ -971,21 +1055,6 @@ MonoBehaviour:
   _shiftPressed: 0
   camState: {fileID: 1642484388}
   _holdingCtrl: 0
---- !u!114 &1393258192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1393258187}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 444fc828af2e5b149a0b724e1cc982a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  autoSpawn: 1
-  SpawnTime: 4
-  SpawnPrefab: {fileID: 1787182553374066230, guid: a004b45e00ca58745881fcdd4bc39f6a, type: 3}
 --- !u!1001 &1474890347
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1302,6 +1371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pausableBehaviors: []
   deactivatableObjects: []
+  roundLength: 15
 --- !u!224 &1731817769
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1347,12 +1417,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb816637fb831c84c96284362b425c2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSceneReference: {fileID: 771890102}
+  player: {fileID: 771890102}
   enemiesToSpawn:
   - {fileID: 1787182553374066230, guid: a004b45e00ca58745881fcdd4bc39f6a, type: 3}
   - {fileID: 8463963088145742600, guid: ba9644429c590164b8002eb03ce1f018, type: 3}
-  oddsToSpawn: 0300000001000000
-  secondsBetweenSpawns: 0.35
+  enemyOdds: 0300000001000000
+  consumablesToSpawn:
+  - {fileID: 1046830301936062823, guid: e46760c81f56c824f92b104654ba26b5, type: 3}
+  consumableOdds:
+  - 0.05
+  secondsBetweenSpawns: 0.75
 --- !u!114 &1797347293 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6492592112735831528, guid: f80b902d00b6f6b44a1910bec463e680, type: 3}
@@ -1613,6 +1687,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1797347293}
     - target: {fileID: 8357729377389555052, guid: f80b902d00b6f6b44a1910bec463e680, type: 3}
+      propertyPath: timeFormat
+      value: 'Time: {0:00}:{1:00}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357729377389555052, guid: f80b902d00b6f6b44a1910bec463e680, type: 3}
+      propertyPath: scoreFormat
+      value: 'Score: {0:0000}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357729377389555052, guid: f80b902d00b6f6b44a1910bec463e680, type: 3}
       propertyPath: MainMenuScene
       value: 
       objectReference: {fileID: 102900000, guid: d10cdc1f8385abf4ab2841fdcf753f23, type: 3}
@@ -1780,3 +1862,4 @@ SceneRoots:
   - {fileID: 566896756}
   - {fileID: 1474890347}
   - {fileID: 6149902170427762557}
+  - {fileID: 294402693}

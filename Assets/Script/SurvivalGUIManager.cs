@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using TMPro;
 using UnityEditor;
+using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,27 +14,35 @@ public class SurvivalGUIManager : ManagerObject<SurvivalGUIManager>
 
     private int scoreTxtSrc;
     private bool bScoreChanged;
-    [SerializeField] private string ScoreFormat = "Score : {0}";
+    private Vector2Int timeTxtSrc;
+    private bool bTimeChanged;
+    [SerializeField] private string scoreFormat = "Score: {0:0000}";
+    [SerializeField] private string timeFormat = "Time: {0:00}:{1:00}";
     [SerializeField] private SceneAsset MainMenuScene;
 
     public GameObject playerGUICanvas;
     public GameObject pauseSettingsCanvas;
     public TMP_Text scoreText;
+    public TMP_Text timeText;
 
-    protected new virtual void Awake()
+
+    protected override void Awake()
     {
         base.Awake();
         Debug.Log("SurvivalGUIAwake");
     }
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         var mode = (SurvivalModeManager)SurvivalModeManager.Get();
         if (mode is null) Debug.LogWarning("There isn't a SurvivalGameMode in the scene. Score GUI will not update");
         else
         {
             mode.scoreUpdate += OnScoreUpdate;
+            mode.timeUpdate += OnTimeUpdate;
             mode.pauseEvent += OnPauseEvent;
+            OnTimeUpdate(mode.GetTimeLeft());
         }
         bScoreChanged = false;
         scoreTxtSrc = 0;
@@ -46,8 +55,16 @@ public class SurvivalGUIManager : ManagerObject<SurvivalGUIManager>
         {
             lock (scoreText)
             {
-                scoreText.text = String.Format(ScoreFormat, (scoreTxtSrc));
+                scoreText.text = String.Format(scoreFormat, (scoreTxtSrc));
                 bScoreChanged = false;
+            }
+        }
+        if (bTimeChanged)
+        {
+            lock (timeText)
+            {
+                timeText.text = String.Format(timeFormat, timeTxtSrc.x, timeTxtSrc.y);
+                bTimeChanged = false;
             }
         }
     }
@@ -58,6 +75,16 @@ public class SurvivalGUIManager : ManagerObject<SurvivalGUIManager>
         {
             scoreTxtSrc = Mathf.FloorToInt(newScore);
             bScoreChanged = true;
+        }
+    }
+
+    public void OnTimeUpdate(float newTime)
+    {
+        lock (timeText)
+        {
+            var min = Mathf.Floor(newTime / 60f);
+            timeTxtSrc = new((int)min, Mathf.FloorToInt(newTime - min * 60f));
+            bTimeChanged = true;
         }
     }
 

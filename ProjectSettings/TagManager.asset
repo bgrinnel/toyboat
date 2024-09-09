@@ -4,7 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - shell
+  - Consumeable
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - EnviromentUnit
   - EnemyUnit
   - 
-  - 
+  - Consumables
   - 
   - 
   - 
