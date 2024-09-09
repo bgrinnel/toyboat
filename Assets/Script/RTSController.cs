@@ -10,11 +10,13 @@ public class RTSController : MonoBehaviour
     public Vector3 worldPos;
     public LayerMask unitLayerMask;
     public LayerMask background;
+    public LayerMask enemy;
     public float clickThreshold = 0.5f; // To distinguish between click and drag
 
     private Vector2 startPos;
     [SerializeField] CameraController camState;
     private bool isDragging = false;
+    [SerializeField] private GameObject moveTargetEffect;
 
     private void Start()
     {
@@ -28,6 +30,8 @@ public class RTSController : MonoBehaviour
     }
     void MouseInput()
     {
+        /*
+        //Unit selection code
         if (Input.GetMouseButtonDown(0))
         {
             // CheckButtonPressed
@@ -62,7 +66,20 @@ public class RTSController : MonoBehaviour
                 SelectSingleUnit();
             }
         }
+        */
         //right mouse click
+        if (Input.GetMouseButtonDown(0))
+        {
+            screenPos = Input.mousePosition;
+            Ray ray = Camera.main.ScreenPointToRay(screenPos);
+            if(Physics.Raycast(ray,  out RaycastHit hitData2, 1000, enemy)){
+                Transform clickedEnemy = hitData2.collider.transform;
+                foreach (var unit in UnitController.instance.Selected()){
+                    Ship_Follow_Script pass_Script = unit.GetComponent<Ship_Follow_Script>();
+                    pass_Script.PassTarget(clickedEnemy);
+                }
+            }
+        }
         if (Input.GetMouseButtonUp(1))
         {
             RightMouseClick();
@@ -129,12 +146,15 @@ public class RTSController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(screenPos);
         if(Physics.Raycast(ray,  out RaycastHit hitData, 1000, background)){
             worldPos = hitData.point;
+            GameObject splashEffect = Instantiate(moveTargetEffect, worldPos, transform.rotation);
+            Destroy(splashEffect, 0.5f);
+            //GameObject[] selectedUnits = UnitController.instance.Selected();
+            foreach (var unit in UnitController.instance.Selected()){
+                Ship_Follow_Script pass_Script = unit.GetComponent<Ship_Follow_Script>();
+                pass_Script.PassDestination(worldPos,UnitController.instance._shiftPressed);
+            }
         }
-        //GameObject[] selectedUnits = UnitController.instance.Selected();
-        foreach (var unit in UnitController.instance.Selected()){
-            Ship_Follow_Script pass_Script = unit.GetComponent<Ship_Follow_Script>();
-            pass_Script.PassDestination(worldPos,UnitController.instance._shiftPressed);
-        }
+        
     }
 
     void ShiftAndCtrlInput()

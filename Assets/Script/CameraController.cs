@@ -7,16 +7,7 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] float scrollZoomSpeed;
     [SerializeField] float cameraSpeed;
-    [SerializeField]
-    private GameObject playUI;
-    [SerializeField]
-    private GameObject settingsUI;
-    private bool SettingsMenu = false;
 
-    private void Start()
-    {
-        
-    }
     void Update()
     {
         if(Input.GetKey(KeyCode.W)) {
@@ -37,31 +28,5 @@ public class CameraController : MonoBehaviour
             pos.z += Input.mouseScrollDelta.y * scrollZoomSpeed;
         }
         transform.position = pos;
-        if(Input.GetKeyDown(KeyCode.Escape)) {
-            MenuChange();
-        }
-
-    }
-    public void MenuChange()
-    {
-        if(SettingsMenu){
-            playUI.SetActive(true);
-            settingsUI.SetActive(false);
-            SettingsMenu = false;
-        }
-        else{
-            playUI.SetActive(false);
-            settingsUI.SetActive(true);
-            SettingsMenu = true;
-        }
-        
-    }
-    public void ExitButton()
-    {
-        Application.Quit();
-    }
-    public bool getSettingsMenu()
-    {
-        return(SettingsMenu);
     }
 }

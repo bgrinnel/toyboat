@@ -11,7 +11,10 @@ public class Shell : MonoBehaviour
     private float muzzleVelocity;
     private Vector3 shellStartPosition;
 
-
+    void Start()
+    {
+        GameModeObject.Register(this);
+    }
     private void Update()
     {
         shellDamage = shellObject.shellDamage;
@@ -67,5 +70,14 @@ public class Shell : MonoBehaviour
     void Disintegrate()
     {
         Destroy(gameObject, 2f); // Delay before destruction
+    }
+    public float GetShellDamage()
+    {
+        return(shellDamage);
+    }
+
+    void OnDestroyed()
+    {
+        GameModeObject.Unregister(this);
     }
 }
