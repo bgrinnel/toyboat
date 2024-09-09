@@ -17,7 +17,7 @@ public class BoundlessWorldManager : ManagerObject<BoundlessWorldManager>
     private Vector3 tileExtents;
     private bool bPlayerNearEdge;
     private Vector3Int nearestTileCenter;
-    protected new virtual void Awake()
+    protected override void Awake()
     {
         base.Awake();
         Debug.Log("BoundlessWorldManager Awake()");
@@ -56,9 +56,9 @@ public class BoundlessWorldManager : ManagerObject<BoundlessWorldManager>
     }
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-
+        base.Start();
         var mode = GameModeObject.Get();
         mode.pauseEvent += OnPauseEvent;
     }

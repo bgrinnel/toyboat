@@ -26,6 +26,8 @@ public class enemyScript : MonoBehaviour
         shipDefeated += mode.OnScoreEvent;
 
         player = GameObject.Find("shipParent");
+
+        // Debug.LogWarning($"SpawnLocation: {transform.position}");
         
     }
 
@@ -53,11 +55,11 @@ public class enemyScript : MonoBehaviour
         }
         
     }
-    private void OnCollisionEnter(Collision OtherObject){
-        Debug.Log("hit" + OtherObject.gameObject.tag);
-        if(OtherObject.gameObject.tag == "shell"){
+    private void OnCollisionEnter(Collision other){
+        Debug.Log($"\"{gameObject.tag}\" hit \"{other.gameObject.name}|tag:\"{other.gameObject.name}\"\"");
+        if(other.gameObject.tag == "shell"){
             
-            Shell shellScript = OtherObject.gameObject.GetComponent<Shell>();
+            Shell shellScript = other.gameObject.GetComponent<Shell>();
             enemyHP -=shellScript.GetShellDamage();
             if(enemyHP <= 0){
                 sinking = true;
@@ -70,10 +72,10 @@ public class enemyScript : MonoBehaviour
             else{
                 GameObject hitEff = Instantiate(HitEffect, this.transform.position,Quaternion.identity);
             }
-            Destroy(OtherObject.gameObject);
+            Destroy(other.gameObject);
         }
-        else if(OtherObject.gameObject.tag == "Player"){
-            Ship_Follow_Script playerScript = OtherObject.gameObject.GetComponent<Ship_Follow_Script>();
+        else if(other.gameObject.tag == "Player"){
+            Ship_Follow_Script playerScript = other.gameObject.GetComponent<Ship_Follow_Script>();
             playerScript.DamagePlayer(damage);
             sinking = true;
             Destroy(this.gameObject,1.5f);

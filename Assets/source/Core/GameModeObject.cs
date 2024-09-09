@@ -14,13 +14,21 @@ public class GameModeObject : ManagerObject<GameModeObject>
 
     private bool bGameModePaused;
 
-    protected new virtual void Awake()
+    protected override void Awake()
     {
+        Debug.LogWarning($"Awake Timescale; {Time.timeScale}");
         base.Awake();
         Debug.Log("GameModeAwake");
         pausableBehaviors = new();
         deactivatableObjects = new();
         bGameModePaused = false;
+    }
+
+    protected override void Start()
+    {
+        Debug.LogWarning($"Start Timescale; {Time.timeScale}");
+        base.Start();
+        SetPaused(false);
     }
     // Update is called once per frame
     protected virtual void Update()
@@ -87,9 +95,15 @@ public class GameModeObject : ManagerObject<GameModeObject>
             }
         }
         Time.timeScale = bGameModePaused ? 0f : 1f;
+        Debug.LogWarning($"SetPaused Timescale; {Time.timeScale}");
         pauseEvent?.Invoke(bGameModePaused);
     }
     
+    public bool IsPaused()
+    {
+        return bGameModePaused;
+    }
+
     public static void Register(UnityEngine.Object other)
     {
         var mode = GameModeObject.Get();
@@ -116,9 +130,10 @@ public class GameModeObject : ManagerObject<GameModeObject>
         return;
     }
 
-    public new virtual void DestroyOnSceneUnload(Scene _old)
+    public override void DestroyOnSceneUnload(Scene _old)
     {
         Time.timeScale = 1f;
+        Debug.LogWarning($"Unloading Timescale; {Time.timeScale}");
         base.DestroyOnSceneUnload(_old);
     }
 }

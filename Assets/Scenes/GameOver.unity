@@ -290,6 +290,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5948469227789930914, guid: d1d39803ec54e7c40a26308ec4dae772, type: 3}
+      propertyPath: m_fontSize
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5948469227789930914, guid: d1d39803ec54e7c40a26308ec4dae772, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 8236946297878524847, guid: d1d39803ec54e7c40a26308ec4dae772, type: 3}
       propertyPath: m_Name
       value: GameOverCanvas
@@ -375,7 +383,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2418579487911589571, guid: d1d39803ec54e7c40a26308ec4dae772, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1d39803ec54e7c40a26308ec4dae772, type: 3}

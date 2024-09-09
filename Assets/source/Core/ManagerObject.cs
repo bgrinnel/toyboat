@@ -25,6 +25,10 @@ public class ManagerObject<SubclassT> : MonoBehaviour where SubclassT : MonoBeha
             Debug.Log($"New Manager Created! Name:\"{this.name}\" | typeof({subclass_type}) | GetType({this.GetType()})");
             singletons[subclass_type] = this;
         }
+    }
+
+    protected virtual void Start()
+    {
         if (!bPersistsBetweenScenes) SceneManager.sceneUnloaded += DestroyOnSceneUnload;
     }
 
@@ -34,11 +38,6 @@ public class ManagerObject<SubclassT> : MonoBehaviour where SubclassT : MonoBeha
         if (bPersists && !bPersistsBetweenScenes) SceneManager.sceneUnloaded -= DestroyOnSceneUnload;
         if (!bPersists && bPersistsBetweenScenes) SceneManager.sceneUnloaded += DestroyOnSceneUnload;
         bPersistsBetweenScenes = bPersists;
-    }
-
-    private void OnDestroyed()
-    {
-        Debug.Log($"Destroying Manager: \"{typeof(SubclassT)}\"");
     }
 
     public static SubclassT Get()
@@ -52,7 +51,7 @@ public class ManagerObject<SubclassT> : MonoBehaviour where SubclassT : MonoBeha
         return (SubclassT)singletons[typeof(SubclassT)];
     }
 
-    // The base functionality for destroying a manager. Extend and place `base.DestroyOnActiveSceneChanged` at the end for further cleanup.
+    // The What destroys a Manager. Extend and place `base.DestroyOnSceneUnload` at the end for further cleanup.
     public virtual void DestroyOnSceneUnload(Scene _old)
     {
         Debug.LogWarning($"SceneUnloaded: Destroying Manager \"{typeof(SubclassT)}\"");
