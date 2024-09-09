@@ -31,7 +31,9 @@ public class TurretSystem : MonoBehaviour
     void Update()
     {
         TargetFinding();
-        TurretRotation(Aiming(target.position));
+        if (targetDesignated){
+            TurretRotation(Aiming(target.position));
+        }
         AutoFiring();
     }
 
@@ -44,10 +46,6 @@ public class TurretSystem : MonoBehaviour
                 gun.Fire(target.position);
             }
         }
-    }
-    public void setTarget(Transform newTarget)
-    {
-        target = newTarget;
     }
 
     void TargetFinding()
@@ -106,6 +104,7 @@ public class TurretSystem : MonoBehaviour
         primaryTarget = newTarget;
         targetDesignated = true;
     }
+    
 
     Vector3 calculateTargetLeadPosition(Transform target, float shellSpeed)
     {
