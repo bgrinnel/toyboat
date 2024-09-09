@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
@@ -15,6 +17,8 @@ public class TurretSystem : MonoBehaviour
     private float currentAngle = 0f;
     private float startAngle; // The initial angle of the turret
     private float angleDifference;
+    private bool targetDesignated = false;
+    private Transform primaryTarget;
 
     void Start()
     {
@@ -26,10 +30,9 @@ public class TurretSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(target!= null){
-            TurretRotation(Aiming(target.position));
-            AutoFiring();
-        }
+        TargetFinding();
+        TurretRotation(Aiming(target.position));
+        AutoFiring();
     }
 
     void AutoFiring()
@@ -45,6 +48,63 @@ public class TurretSystem : MonoBehaviour
     public void setTarget(Transform newTarget)
     {
         target = newTarget;
+    }
+
+    void TargetFinding()
+    {
+        var distance = 0f;//Default Distnace
+        if (primaryTarget == null)//if No enemy is designated as targert
+        {
+            
+            foreach(GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))//go through all the enemies present
+            {
+                if ((Mathf.Abs(Aiming(enemy.transform.position)) < maxRotationAngle))//if there is enemies in firing angle
+                {
+                    if (distance <= 0f)//if there is not target designated
+                    {
+                        target = enemy.transform;
+                        distance = Vector3.Distance(transform.position, enemy.transform.position);
+                    }
+                    else if (distance > Vector3.Distance(transform.position, enemy.transform.position) && target == null)//if there is a enemy closser than the current one and the original target is destroyed
+                    {
+                        distance = Vector3.Distance(transform.position, enemy.transform.position);
+                        target = enemy.transform;
+                    }
+                }
+            }
+        }
+        else//if there is a designeated target
+        {
+            if (Mathf.Abs(Aiming(primaryTarget.transform.position)) > maxRotationAngle)//if the deisgnated target is out of firing angle
+            {
+                foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))//Go through all enemies present
+                {
+                    if ((Mathf.Abs(Aiming(enemy.transform.position)) < maxRotationAngle))//if there is enemies within the firing angle
+                    {
+                        if (distance <= 0f)//if there is not target designated
+                        {
+                            target = enemy.transform;
+                            distance = Vector3.Distance(transform.position, enemy.transform.position);
+                        }
+                        else if (distance > Vector3.Distance(transform.position, enemy.transform.position))//if there is a enemy closser than the current one and the original target is destroyed
+                        {
+                            distance = Vector3.Distance(transform.position, enemy.transform.position);
+                            target = enemy.transform;
+                        }
+                    }
+                }
+            }
+            else//if the designated target is within the firing angle
+            {
+                target = primaryTarget;//make the current target as the primary target
+            }
+        }
+    }
+
+    public void setTarget(Transform newTarget)
+    {
+        primaryTarget = newTarget;
+        targetDesignated = true;
     }
 
     Vector3 calculateTargetLeadPosition(Transform target, float shellSpeed)
