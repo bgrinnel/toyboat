@@ -83,6 +83,7 @@ public class enemyScript : MonoBehaviour
 
     void OnDestroyed()
     {
+        Debug.Log("Destroying Enemy");
         GameModeObject.Unregister(this);
         var mode = GameModeObject.Get() as SurvivalModeManager;
         if (mode)

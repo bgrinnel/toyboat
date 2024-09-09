@@ -9,9 +9,10 @@ public class BoundlessWorldManager : ManagerObject<BoundlessWorldManager>
 {
     [SerializeField] private GameObject WaterTileReference;
     [SerializeField] private GameObject playerSceneReference;
-    private const int TILEPOOL_LEN = 25;
-    private const int TILEPOOL_SQRT = 5;
-    private const float TILEPOOL_OFFSET = 2;
+    private const int TILEPOOL_LEN = 121;
+    private const int TILEPOOL_SQRT = 11;
+    private const float TILEPOOL_OFFSET = 5;
+    private GameObject tilesRoot;
     private GameObject[] tilePool;
     private Vector3 tileExtents;
     private bool bPlayerNearEdge;
@@ -40,11 +41,14 @@ public class BoundlessWorldManager : ManagerObject<BoundlessWorldManager>
             tileExtents.z *= scale.z;
             Debug.Log($"tileExtents = {tileExtents}");
         }
-        // Debug, let's see if this works
+        
+        tilesRoot = new GameObject("TilesRoot");
+        tilesRoot.transform.SetParent(transform);
+
         tilePool = new GameObject[TILEPOOL_LEN];
         for (int idx = 0; idx < TILEPOOL_LEN; ++idx)
         {
-            var tile = Instantiate(WaterTileReference, transform);
+            var tile = Instantiate(WaterTileReference, tilesRoot.transform);
             tilePool[idx] = tile;
         }
         nearestTileCenter = GetNearestExtents(playerSceneReference);
@@ -54,6 +58,7 @@ public class BoundlessWorldManager : ManagerObject<BoundlessWorldManager>
     // Start is called before the first frame update
     void Start()
     {
+
         var mode = GameModeObject.Get();
         mode.pauseEvent += OnPauseEvent;
     }
@@ -81,6 +86,11 @@ public class BoundlessWorldManager : ManagerObject<BoundlessWorldManager>
             CenterTiles();
         }
     }   
+
+    public Vector3 GetTileExtents()
+    {
+        return tileExtents;
+    }
 
     private void CenterTiles()
     {
