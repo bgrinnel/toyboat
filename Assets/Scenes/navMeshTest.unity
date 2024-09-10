@@ -284,6 +284,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TimeBonusPickup
       objectReference: {fileID: 0}
+    - target: {fileID: 1046830301936062823, guid: e46760c81f56c824f92b104654ba26b5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3765823528105575217, guid: e46760c81f56c824f92b104654ba26b5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.24
@@ -1323,7 +1327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollZoomSpeed: 0.8
-  cameraSpeed: 10
+  cameraSpeed: 25
 --- !u!82 &1642484389
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1565,7 +1569,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pausableBehaviors: []
   deactivatableObjects: []
-  roundLength: 15
+  roundLength: 120
 --- !u!224 &1731817769
 RectTransform:
   m_ObjectHideFlags: 0
