@@ -1,23 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 
-public class enemyScript : MonoBehaviour
+public class enemyScript : MonoBehaviour, ICombatEntity
 {
     public SurvivalModeManager.ScoreEvent shipDefeated;
-
-    [SerializeField] private float enemyHP;
-    [SerializeField] private float damage;
-    [SerializeField] private float speed;
-    [SerializeField] private float rotSpeed;
-    [SerializeField] private GameObject player;
-    [SerializeField] private GameObject HitEffect;
-
-    [SerializeField] private float DefeatedScore = 100f;
-    [SerializeField] private float DefeatedScoreMod = 0.1f;
+    [SerializeField] private EnemyType _base;
+    public float Health {get {return _base.initialHealth; } set { _base.initialHealth = value; }}
+    private GameObject player;
     private bool sinking;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,22 +21,18 @@ public class enemyScript : MonoBehaviour
         shipDefeated += mode.OnScoreEvent;
 
         player = GameObject.Find("shipParent");
-
-        // Debug.LogWarning($"SpawnLocation: {transform.position}");
-        
     }
 
     // Update is called once per frame
     void Update()
     {
         if(!sinking){
-            float speedTick = Time.deltaTime * speed;
+            float speedTick = Time.deltaTime * _base.moveSpeed;
             Vector3 targetDir = new Vector3(player.transform.position.x - transform.position.x,transform.position.y, player.transform.position.z - transform.position.z);
 
             if(Quaternion.LookRotation(targetDir) != Quaternion.identity ){
-                //Debug.Log(targetDir);
                 Quaternion lookDir = Quaternion.LookRotation(targetDir,Vector3.up);
-                transform.rotation =  Quaternion.RotateTowards(transform.rotation, lookDir, (rotSpeed * Time.deltaTime));
+                transform.rotation =  Quaternion.RotateTowards(transform.rotation, lookDir, (_base.rotSpeed * Time.deltaTime));
                 transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, transform.localEulerAngles.z);
                 transform.position += transform.forward* speedTick;
             }
@@ -51,47 +42,35 @@ public class enemyScript : MonoBehaviour
         }
         else{
             transform.Translate(Vector3.down * Time.deltaTime*10f);
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, Time.deltaTime * speed);
+            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, Time.deltaTime * _base.moveSpeed);
         }
         
     }
     private void OnCollisionEnter(Collision other){
-        Debug.Log($"\"{gameObject.tag}\" hit \"{other.gameObject.name}|tag:\"{other.gameObject.name}\"\"");
-        if(other.gameObject.tag == "shell"){
-            
-            Shell shellScript = other.gameObject.GetComponent<Shell>();
-            enemyHP -=shellScript.GetShellDamage();
-            if(enemyHP <= 0){
-                sinking = true;
-                Destroy(this.GetComponent<Rigidbody>());
-                GameObject hitEff = Instantiate(HitEffect, this.transform.position,Quaternion.identity);
-                Debug.Log(this.transform.rotation + " " + hitEff.transform.rotation);
-                shipDefeated?.Invoke(DefeatedScore, DefeatedScoreMod);
-                Destroy(this.gameObject, 1.5f);
-            }
-            else{
-                GameObject hitEff = Instantiate(HitEffect, this.transform.position,Quaternion.identity);
-            }
-            Destroy(other.gameObject);
+        var game_obj = other.gameObject;
+        if(game_obj.TryGetComponent(out Shell shell)){
+            CombatManager.DamageEvent(shell, this, new(shell.GetShellDamage()));
+            if(Health > 0)
+                Instantiate(_base.hitEffect, transform.position, Quaternion.identity, transform);
         }
-        else if(other.gameObject.tag == "Player"){
-            Ship_Follow_Script playerScript = other.gameObject.GetComponent<Ship_Follow_Script>();
-            playerScript.DamagePlayer(damage);
+        else if(game_obj.TryGetComponent(out Ship_Follow_Script player)){
+            CombatManager.DamageEvent(this, player, new(_base.collisionDamage));
             sinking = true;
-            Destroy(this.gameObject,1.5f);
-            
         }
     }
 
-    void OnDestroyed()
+    public void OnDefeated(ICombatEntity defeater, TCombatContext context)
     {
-        Debug.Log("Destroying Enemy");
+        sinking = true;
+        Destroy(GetComponent<Rigidbody>());
+        shipDefeated?.Invoke(_base.defeatedScore, _base.comboScoreMod);
         GameModeObject.Unregister(this);
         var mode = GameModeObject.Get() as SurvivalModeManager;
         if (mode)
         {
             shipDefeated += mode.OnScoreEvent;
         }
+        Destroy(gameObject, 1.5f);
     }
 
 }

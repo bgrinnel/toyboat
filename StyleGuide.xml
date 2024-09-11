@@ -1,0 +1,88 @@
+<!--  Naming conventions for files, folders, and assets:
+    - no spaces in names, for anything
+    - all folders should be UpperCamelCase; i.e. "ThisIsASampleFolderName"
+    - 
+ -->
+
+<!-- 
+    The first thing to define is the folder structure
+-->
+<!-- The root folder -->
+<ToyBoatFolder>
+    <!-- All our IDE local files -->
+    <.idea/>
+    <.vscode/>
+    <Assets>    
+        <!-- All externally created assets go here; Models, Textures, Music, etc.
+        This allows us to keep Artist's and Programmer's work-flow separate -->
+        <Art>
+            <Models/>
+            <Textures/>
+            <SFX/>
+        </Art>
+
+        <!-- This is all Scene relative stuff, so it's not JUST "scenes". 
+        It is all Unity Scene content;
+            - Scenes
+            - Canvases
+            - Prefabs
+            - NavMeshes
+            - etc. 
+        This will keep our design work-flow separate from all the others -->
+        <Scene>
+            <UnityScenes>
+                <!-- If a Scene has "component scenes"; 
+                    - menus
+                    - Dungeon-elements
+                    - programmatic sub-scenes
+                    - etc.
+                    They should be in a folder named after the scene they're for within "UnityScenes".
+                    If a component scene doesn't belong to just one larger scene it will go in "UnityComponentScenes") -->
+            </UnityScenes>
+            <UnityComponentScenes/>
+            <Prefabs>
+                <!-- Much like component-scenes, if there are variants of a prefab they should be stored in a subfolder of "Prefabs" called "{BasePrefabName}Variants" -->
+            </Prefabs>
+            <UI/>
+        </Scene>
+
+        <!-- All code goes in here, once again; seperating the programming work-flow from the others 
+            When we write out the system architecture on Tuesday we'll layout a top-level view of what Source's sub-subfolders structure will look like -->
+        <Source>
+            <!-- Anything that **doesn't** inheret from MonoBehavior goes here, with subfolders for splitting up functionality from one another (As will be true for all "Source" subfolders). -->
+            <Internal/>
+            <!-- Things that inheret from MonoBehavior go here -->
+            <Behaviors/>
+            <!-- Shaders go here, with subfolders for Compute, PostProcessing, Render, Material, etc. as needed -->
+            <Shaders/>
+            <!-- Any globally accessible debug-build functionality we end up making will go in here -->
+            <Debug/>  
+        </Source>
+
+        <!-- Things like a finished style doc and folder structure doc will be in here -->
+        <Docs/>
+        <WIP>
+            <!-- Each of us will have our own WIP subfolders and one subsubfolder for each branch 
+            example subfolders: 
+            "WIP"
+                - "Jeff"
+                    - "ScoringSystem"
+                    - "EndlessMapSystem"
+                    - etc.
+                - "OhMyAchingHead"
+                    - "SomethingSomething"
+                    - "SomethingSomethingv2"
+                - "VK"
+                    - "SomethingSomethingSomething"
+                    - "SomethingSomethingSomethingElse"
+            When we redo the folder structure Teusday, we'll add the whole WIP folder to the git-ignore
+                - I think it's best practice to duplicate scenes and assets that we need to modify and put them into our WIP folder for each branch.
+                - When we are finished with a branch, before we make a merge request it's the Branch's owner job to put all needed WIP files into the Assets -> Source, Scene, Art, and Docs folders, where they should go and hook everything into the existing stable system. That way it just becomes the job of someone inspecting the merge conflict to see if anything was overwritten in a bad way, and OhMyAching head shouldn't be spending 1-2hours before testing days wipping together a working game with our assets all off in our own folders.
+                - you can have the interal structure of your WIP folders be however you like since no-one but yourself will see them but obvious it's recommended you follow the structure guide since theorectically you could just copy and paste it onto the main asset folder once you're done with the branch
+                -->
+        </WIP>
+
+        <!-- This is where external stuff goes; 3rdparty systems, scripts, and art-assets. The sub-folder structure should be a mirror of ours -->
+        <Externals/>
+    <Assets/>
+</ToyBoatFolder>

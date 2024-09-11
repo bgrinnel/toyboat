@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class UnitController : MonoBehaviour
 {
-    [SerializeField]
-    private List<GameObject> _selectedUnits = new List<GameObject>();
+    [SerializeField] private List<GameObject> _selectedUnits = new List<GameObject>();
     private static UnitController _instance;
     public static UnitController instance { get { return _instance; } }
     public bool _shiftPressed;
-    [SerializeField] CameraController camState;
+    [SerializeField] private CameraController camState;
     public bool _holdingCtrl;
     public List<GameObject>[] unitGroups = new List<GameObject>[10];
 

@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Ship_Follow_Script : MonoBehaviour
+public class Ship_Follow_Script : MonoBehaviour, ICombatEntity
 {
-
-
-//could do gotoPoint instead, with first halfturn and second moveTowards
-    [SerializeField] private float playerHP;
+    //could do gotoPoint instead, with first halfturn and second moveTowards
+    [SerializeField] private float _Health;
+    public float Health {get{ return _Health; }set{ _Health = value; }}
     [SerializeField] private float speed;
     [SerializeField] private float rotSpeed;
     [SerializeField] private GameObject target;
@@ -80,12 +79,13 @@ public class Ship_Follow_Script : MonoBehaviour
     public void PassTarget(Transform target){
        turretSys.setTarget(target);
     }
-    public void DamagePlayer(float damage){
-        playerHP -= damage;
-        if(playerHP <= 0){
-            SceneManager.LoadScene("GameOver");
-        }
+
+    public void OnDefeated(ICombatEntity defeater, TCombatContext context)
+    {
+        SceneManager.LoadScene("GameOver");
+        Destroy(transform.parent.gameObject, 2f);
     }
+
     /*
     //stack overflow code
     public void mathNav(){
@@ -125,10 +125,4 @@ public class Ship_Follow_Script : MonoBehaviour
             distance = distance - LineSegment[i].length
     }
     */
-    void OnDestroyed()
-    {
-        GameModeObject.Unregister(this);
-    }
-    
-
 }

@@ -2,19 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shell : MonoBehaviour
+public class Shell : MonoBehaviour, ICombatEntity, IFragileEntity
 {
+    public ICombatEntity Owner;
     public ShellObject shellObject;
     private float shellDamage;
     private Vector3 targetPosition;
     private float speed;
     private float muzzleVelocity;
     private Vector3 shellStartPosition;
+    public float Health { get {return 1f;} set{}}
 
     void Start()
     {
         GameModeObject.Register(this);
     }
+
     private void Update()
     {
         shellDamage = shellObject.shellDamage;
@@ -33,7 +36,7 @@ public class Shell : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
             yield return null;
         }
-        Disintegrate();
+        Destroy(this, 2f);
     }
 
     public void LaunchBallistic(Vector3 target, float muzzleVelocity)
@@ -62,22 +65,19 @@ public class Shell : MonoBehaviour
             transform.position = Vector3.Lerp(Vector3.Lerp(startPosition, midPoint, t), Vector3.Lerp(midPoint, targetPosition, t), t);
             yield return null;
         }
-        Disintegrate();
+        Destroy(this, 2f);
     }
 
 
     // Destroy the shell after landing or reaching the ideal position
-    void Disintegrate()
-    {
-        Destroy(gameObject, 2f); // Delay before destruction
-    }
-    public float GetShellDamage()
-    {
-        return(shellDamage);
-    }
-
-    void OnDestroyed()
+    public void OnDefeated(ICombatEntity _c, TCombatContext _e)
     {
         GameModeObject.Unregister(this);
+        Destroy(gameObject, 2f); // Delay before destruction
+    }
+
+    public float GetShellDamage()
+    {
+        return shellDamage;
     }
 }
