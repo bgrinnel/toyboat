@@ -82,7 +82,7 @@ public class Ship_Follow_Script : MonoBehaviour, ICombatEntity
 
     public void OnDefeated(ICombatEntity defeater, TCombatContext context)
     {
-        SceneManager.LoadScene("GameOver");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("GameOver");
         Destroy(transform.parent.gameObject, 2f);
     }
 

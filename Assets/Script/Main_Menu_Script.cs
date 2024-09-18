@@ -17,7 +17,7 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField] private SceneAsset survivalScene;
     public void PlayButton()
     {
-        SceneManager.LoadScene(survivalScene.name, LoadSceneMode.Single);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(survivalScene.name, LoadSceneMode.Single);
     }
     public void SettingsButton()
     {

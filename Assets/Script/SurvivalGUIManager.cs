@@ -100,7 +100,7 @@ public class SurvivalGUIManager : ManagerObject<SurvivalGUIManager>
     
     public void OnMainMenuBtnClicked()
     {
-        SceneManager.LoadScene(MainMenuScene.name);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(MainMenuScene.name);
     }
 
 

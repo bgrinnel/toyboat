@@ -36,7 +36,7 @@ public class SurvivalModeManager : GameModeObject
         score = 0;
         secondsTillEnd = roundLength;
         SetPersistance(true);
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
         pauseEvent += OnPauseEvent;
     }
 
@@ -75,7 +75,7 @@ public class SurvivalModeManager : GameModeObject
             if (secondsTillEnd <= 0f)
             {
                 gameOverReason = "Time Expired";
-                SceneManager.LoadScene("GameOver");
+                UnityEngine.SceneManagement.SceneManager.LoadScene("GameOver");
             }
             timeUpdate?.Invoke(secondsTillEnd);
         }

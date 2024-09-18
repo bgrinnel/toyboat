@@ -17,7 +17,6 @@ public class TurretSystem : MonoBehaviour
     private float currentAngle = 0f;
     private float startAngle; // The initial angle of the turret
     private float angleDifference;
-    private bool targetDesignated = false;
     private Transform primaryTarget;
 
     void Start()
@@ -31,9 +30,7 @@ public class TurretSystem : MonoBehaviour
     void Update()
     {
         TargetFinding();
-        if (targetDesignated){
-            TurretRotation(Aiming(target.position));
-        }
+        TurretRotation(Aiming(target.position));
         AutoFiring();
     }
 
@@ -46,6 +43,10 @@ public class TurretSystem : MonoBehaviour
                 gun.Fire(target.position);
             }
         }
+    }
+    public void setTarget(Transform newTarget)
+    {
+        target = newTarget;
     }
 
     void TargetFinding()
@@ -71,6 +72,7 @@ public class TurretSystem : MonoBehaviour
                 }
             }
         }
+        
         else//if there is a designeated target
         {
             if (Mathf.Abs(Aiming(primaryTarget.transform.position)) > maxRotationAngle)//if the deisgnated target is out of firing angle
@@ -98,13 +100,6 @@ public class TurretSystem : MonoBehaviour
             }
         }
     }
-
-    public void setTarget(Transform newTarget)
-    {
-        primaryTarget = newTarget;
-        targetDesignated = true;
-    }
-    
 
     Vector3 calculateTargetLeadPosition(Transform target, float shellSpeed)
     {

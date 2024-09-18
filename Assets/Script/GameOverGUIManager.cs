@@ -23,12 +23,12 @@ public class GameOverGUIManager : ManagerObject<GameOverGUIManager>
 
     public void OnMainMenuBtnClicked()
     {
-        SceneManager.LoadScene(mainMenuScene.name);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(mainMenuScene.name);
     }
 
     public void OnTryAgainBtnClicked()
     {
-        SceneManager.LoadScene(survivalScene.name);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(survivalScene.name);
     }
 
     public void SetTitle(string title)

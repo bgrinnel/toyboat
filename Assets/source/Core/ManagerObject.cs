@@ -29,14 +29,14 @@ public class ManagerObject<SubclassT> : MonoBehaviour where SubclassT : MonoBeha
 
     protected virtual void Start()
     {
-        if (!bPersistsBetweenScenes) SceneManager.sceneUnloaded += DestroyOnSceneUnload;
+        if (!bPersistsBetweenScenes) UnityEngine.SceneManagement.SceneManager.sceneUnloaded += DestroyOnSceneUnload;
     }
 
     // Set Whether this ManagerObject is not Destroyed when a new Scene becomes active
     public void SetPersistance(bool bPersists)
     {
-        if (bPersists && !bPersistsBetweenScenes) SceneManager.sceneUnloaded -= DestroyOnSceneUnload;
-        if (!bPersists && bPersistsBetweenScenes) SceneManager.sceneUnloaded += DestroyOnSceneUnload;
+        if (bPersists && !bPersistsBetweenScenes) UnityEngine.SceneManagement.SceneManager.sceneUnloaded -= DestroyOnSceneUnload;
+        if (!bPersists && bPersistsBetweenScenes) UnityEngine.SceneManagement.SceneManager.sceneUnloaded += DestroyOnSceneUnload;
         bPersistsBetweenScenes = bPersists;
     }
 
